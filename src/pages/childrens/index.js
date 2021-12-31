@@ -7,7 +7,7 @@ import './sponserStyles.css'
 
 const { Title } = Typography
 
-export default function ViewSponsors() {
+export default function Childrens() {
 
   const navigate = useNavigate()
 
