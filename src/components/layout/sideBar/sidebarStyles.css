@@ -1,0 +1,29 @@
+.sider{
+    background-color: #44524F !important;
+}
+.sider-menu{
+    background-color: #44524F !important;
+    color: #ffffff !important ;
+    margin-top: 30px !important;
+}
+.sider-menu-item{
+margin-bottom: 15px !important;
+}
+.sider-menu-item:hover{
+    background-color: #fff ;
+    color: #44524F !important;
+    transition: 0.5s ease-in-out !important;
+}
+
+.submenu-item{
+    color: #44524F ;
+}
+.submenu-item:hover{
+background-color: #44524F;
+color:#ffffff !important
+}
+
+
+.ant-menu-submenu-arrow{
+    color: #ffffff !important;
+    }

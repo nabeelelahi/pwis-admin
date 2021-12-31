@@ -1,0 +1,23 @@
+.header{
+    padding: 10;
+    padding-top: 15;
+    justify-content: center;
+    align-items: center;
+    background-color: #44524F !important;
+}
+.title{
+    color: #fff;
+}
+.icon-div{
+    flex-direction: row;
+    float: right;
+}
+.icon{
+    margin-left: 10px !important;
+    color: white !important;
+    font-size: x-large;
+}
+.avatar{
+    margin-left: 10px !important;
+    margin-top: -10px !important;
+}
