@@ -1,0 +1,17 @@
+.main {
+  background: #fff;
+  min-height: 700px;
+  width: 100%;
+}
+
+@media (max-width: 600px) {
+  .main {
+    min-height: 600px;
+  }
+}
+
+@media (min-width:1200px) {
+  .main{
+    min-height: 900px;
+  }
+}
