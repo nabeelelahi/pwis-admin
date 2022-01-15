@@ -1,0 +1,15 @@
+.search-box-container{
+    display: flex;
+    justify-content: center;   
+    /* border: 1px solid;  */
+
+}
+.search-input{
+    width: 250px;
+    max-width: 300px;
+}
+.search-input .ant-btn-primary{
+    background-color: #44524f;
+    border: none;
+
+}

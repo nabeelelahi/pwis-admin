@@ -4,10 +4,11 @@ import {
     Workers,
     Childrens,
     AccountRequests,
-    Orders,
+    RemainingHouses,
     VaccineDrive,
     AddWorker,
-    AddChildren
+    AddChildren,
+    UpdateWorker
 
 } from '@pages'
 import Login from "../pages/login";
@@ -35,14 +36,17 @@ export default function App() {
                     element={<PrivateRoute><AccountRequests /> </PrivateRoute>}
                 />
                 <Route
-                    path='/orders'
-                    element={<PrivateRoute><Orders /></PrivateRoute>} />
+                    path='/remaining-houses'
+                    element={<PrivateRoute><RemainingHouses /></PrivateRoute>} />
                 <Route
                     path='/add-worker'
                     element={<PrivateRoute><AddWorker /></PrivateRoute>} />
                 <Route
                     path='/add-children'
                     element={<PrivateRoute><AddChildren /></PrivateRoute>} />
+                <Route
+                    path='/update-worker'
+                    element={<PrivateRoute><UpdateWorker /></PrivateRoute>} />
 
                 <Route path='/login' element={<Login />} />
 

@@ -11,10 +11,14 @@ import Loader from "./loader";
 import {
   AddWorkerForm,
   AddChildrenForm,
-  LoginForm
+  LoginForm,
+  UpdateWorkerForm
 } from "./forms";
 
-
+// MODALS
+import {
+  AreYouSureModal
+} from './modals'
 
 export {
   // LAYOUT
@@ -29,5 +33,9 @@ export {
   // FORMS
   AddWorkerForm,
   AddChildrenForm,
+  UpdateWorkerForm,
   LoginForm,
+
+  // MODALS
+  AreYouSureModal
 };

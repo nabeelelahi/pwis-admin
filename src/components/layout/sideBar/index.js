@@ -39,11 +39,11 @@ function SideBar() {
         <Menu.Item className={`${location === '/childrens' ? 'active-menu' :'sider-menu-item' }`} key='childrens' onClick={() => navigate('/childrens')}>
           Childrens
         </Menu.Item>
+        <Menu.Item className={`${location === '/remaining-houses' ? 'active-menu' :'sider-menu-item' }`} key='orders' onClick={() => navigate('/remaining-houses')}>
+        Remaining Houses
+        </Menu.Item>
         <Menu.Item className={`${location === '/account-requests' ? 'active-menu' :'sider-menu-item' }`} key='account-requests' onClick={() => navigate('/account-requests')}>
           Account Requests
-        </Menu.Item>
-        <Menu.Item className={`${location === '/orders' ? 'active-menu' :'sider-menu-item' }`} key='orders' onClick={() => navigate('/orders')}>
-          Orders
         </Menu.Item>
       </Menu>
     </Sider>

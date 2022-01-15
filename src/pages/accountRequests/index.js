@@ -1,13 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { message, Tag, Typography, Space, Avatar, Image } from 'antd';
+import { message, Tag, Typography, Space, Avatar, Image, Input } from 'antd';
 import { http } from "@services"
-import { LayoutComponent, TableComponent, Loader } from '@components'
+import { LayoutComponent, TableComponent, Loader, AreYouSureModal } from '@components'
 
 const { Title } = Typography
+
+const { Search } = Input
 
 export default function AccountRequests() {
 
   const [requests, setRequests] = useState([])
+
+  const [search, setSearch] = useState([])
+
+  const [showModal, setShowModal] = useState(false)
+
 
   const columns = [
     {
@@ -90,69 +97,79 @@ export default function AccountRequests() {
       fixed: 'right',
       render: (text, record) => (
         <Space size="middle">
-          <Tag color={'red'} >Delete</Tag>
+          <Tag color={'red'} onClick={()=>setShowModal(true)}>Delete</Tag>
         </Space>
       ),
     },
   ]
 
 
-  useEffect(() => {
-    getAccountRequests()
-  }, [])
+  // useEffect(() => {
+  //   getAccountRequests()
+  // }, [])
 
-  async function getAccountRequests() {
-    const url = 'admin/GET/account-requests';
+  // async function getAccountRequests() {
+  //   const url = 'admin/GET/account-requests';
 
-    const response = await http(url);
+  //   const response = await http(url);
 
-    if (response?.success) {
-      setRequests(response.data)
-    }
-    else {
-      if (response?.message === 'No requests found') {
-        setRequests([])
-      } else
-        message.error('Something went wrong')
-    }
+  //   if (response?.success) {
+  //     setRequests(response.data)
+  //   }
+  //   else {
+  //     if (response?.message === 'No requests found') {
+  //       setRequests([])
+  //     } else
+  //       message.error('Something went wrong')
+  //   }
 
-  }
+  // }
 
-  async function acceptAccountRequest(text) {
+  // async function acceptAccountRequest(text) {
 
-    const url = `admin/PUT/accept-request`;
+  //   const url = `admin/PUT/accept-request`;
 
-    const options = {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(text)
-    };
+  //   const options = {
+  //     method: 'PUT',
+  //     headers: {
+  //       'Content-Type': 'application/json'
+  //     },
+  //     body: JSON.stringify(text)
+  //   };
 
-    const response = await http(url, options);
+  //   const response = await http(url, options);
 
-    if (response?.success) {
-      message.success("Account Request Approved");
-      getAccountRequests()
-    }
-    else {
-      message.error("Something went wrong");
-      getAccountRequests()
-    }
+  //   if (response?.success) {
+  //     message.success("Account Request Approved");
+  //     getAccountRequests()
+  //   }
+  //   else {
+  //     message.error("Something went wrong");
+  //     getAccountRequests()
+  //   }
 
-  }
+  // }
 
   return (
     <LayoutComponent>
       <div className="container">
         <Title className='heading'>Account Requests</Title>
+        <div className='mb-3 search-box-container' >
+        <Search placeholder="Search account requests" enterButton="Search" size="large" loading={false} className='search-input mr-3'
+          onChange={(e) => console.log(e.target.value)}
+          value={search}
+
+        />
+      </div>
+    
+
         {requests ?
           <TableComponent columns={columns} data={requests} />
           :
           <Loader />
         }
       </div>
+      <AreYouSureModal showModal={showModal} setShowModal={setShowModal} text={'Do you really want to delete this account request?'} onOk={() => console.log('onOk')} />
     </LayoutComponent>
 
   )

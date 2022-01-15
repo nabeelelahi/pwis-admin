@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import { Form, Input, Select, Row, Col, Button, Typography, message, } from 'antd';
 import { http } from "@services"
-import './addWorkerStyles.css'
 
 const { Title } = Typography
 
 const { Option } = Select;
 
-export default function AddWorkerForm() {
+export default function UpdateWorkerForm() {
     const [form] = Form.useForm();
 
     const [loading, setLoading] = useState(false)
@@ -33,15 +32,41 @@ export default function AddWorkerForm() {
 
         }
     }
+    const state = {
+        firstName: '',
+        lastName: '',
+        email: '',
+        phone: '',
+        cnic: '',
+        gender: '',
+        address: '',
+        city: '',
+        district: '',
+        postalCode: '',
+    }
 
     return (
         <div>
-            <Title className='form-title'>Add Worker</Title>
+            <Title className='form-title'>Update Worker</Title>
             <Form
                 form={form}
-                name="add-worker"
+                name="update-worker"
                 layout="vertical"
                 onFinish={onFinish}
+                initialValues={{
+                    firstName: state.firstName,
+                    lastName: state.lastName,
+                    email: state.email,
+                    phone: state.phone,
+                    cnic: state.cnic,
+                    gender: state.gender,
+                    address: state.address,
+                    city: state.city,
+                    district: state.district,
+                    postalCode: state.postalCode,
+
+
+                }}
                 scrollToFirstError
             >
                 <Row gutter={[{ xl: 50, lg: 30, md: 20, sm: 15, xs: 0 }, 0]}>
@@ -164,7 +189,7 @@ export default function AddWorkerForm() {
                     <Col xs={24} lg={24} md={24} sm={24}>
                         <Form.Item>
                             <Button loading={loading} type="primary" htmlType="submit" className='custom-btn'>
-                                Add
+                                Update
                             </Button>
                         </Form.Item>
                     </Col>

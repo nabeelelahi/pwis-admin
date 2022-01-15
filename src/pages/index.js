@@ -1,8 +1,9 @@
 import Workers from './workers'
 import Childrens from './childrens'
-import Orders from './orders'
+import RemainingHouses from './remainingHouses'
 import AccountRequests from './accountRequests'
 import VaccineDrive from './vaccineDrive'
+import {UpdateWorker} from "./update"
 
 import {
     AddWorker,
@@ -13,10 +14,13 @@ export {
     Workers,
     Childrens,
     AccountRequests,
-    Orders,
+    RemainingHouses,
     VaccineDrive,
 
     // ADD FORMS
     AddWorker,
-    AddChildren
+    AddChildren,
+
+    // UPDATE WORKER
+    UpdateWorker
 }

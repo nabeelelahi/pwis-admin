@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Typography } from 'antd'
 import { useNavigate } from 'react-router'
 import { CheckUser } from '@helpers'
+import {AreYouSureModal} from "../../modals"
 import './navStyles.css'
 
 const { Title } = Typography
@@ -27,6 +28,7 @@ function Nav() {
                     <button className='logout-btn' onClick={logout}>Logout</button>
                 </div>
             }
+            <AreYouSureModal/>
             <Title className='title'>Admin Panel</Title>
         </header>
     )

@@ -1,7 +1,8 @@
 import CheckUser from './checkuser'
-import {handleScreenChange} from './screenSize'
+import {handleScreenChange, handleModalSize} from './screenSize'
 
 export {
     CheckUser,
-    handleScreenChange
+    handleScreenChange,
+    handleModalSize
 }

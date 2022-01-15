@@ -8,3 +8,24 @@ export function handleScreenChange(setCollapsed) {
     }
 
 }
+
+export function handleModalSize(setWidth) {
+
+    let width;
+    window.addEventListener('load', getWidth)
+    window.addEventListener('resize', getWidth)
+    getWidth()
+
+    function getWidth() {
+        if (window.innerWidth < 600) {
+            width = '90%'
+            setWidth(width)
+
+        } else {
+            width = '35%'
+            setWidth(width)
+        }
+
+    }
+
+}

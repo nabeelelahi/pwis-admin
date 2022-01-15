@@ -54,7 +54,7 @@ export default function AddChildrenForm() {
                             ]}
 
                         >
-                            <Input placeholder='Enter first name here' />
+                            <Input placeholder='Enter first name' />
                         </Form.Item>
                     </Col>
                     <Col xs={24} lg={12} md={12} sm={12}>
@@ -66,7 +66,7 @@ export default function AddChildrenForm() {
                                 { required: true, message: 'This field is required' }
                             ]}
                         >
-                            <Input placeholder='Enter last name here' />
+                            <Input placeholder='Enter last name' />
                         </Form.Item>
                     </Col>
                     <Col xs={24} lg={12} md={12} sm={12}>
@@ -77,7 +77,7 @@ export default function AddChildrenForm() {
                                 { required: true, message: 'This field is required' }
                             ]}
                         >
-                            <Input placeholder='Enter email here' />
+                            <Input placeholder='Enter email' />
                         </Form.Item>
                     </Col>
                     <Col xs={24} lg={12} md={12} sm={12}>
@@ -88,7 +88,7 @@ export default function AddChildrenForm() {
                                 { required: true, message: 'This field is required' }
                             ]}
                         >
-                            <Input placeholder='Enter phone here' />
+                            <Input placeholder='Enter phone' />
                         </Form.Item>
                     </Col>
                     <Col xs={24} lg={12} md={12} sm={12}>
@@ -99,7 +99,7 @@ export default function AddChildrenForm() {
                                 { required: true, message: 'This field is required' }
                             ]}
                         >
-                            <Input placeholder='Enter cnic here' />
+                            <Input placeholder='Enter cnic' />
                         </Form.Item>
                     </Col>
                     <Col xs={24} lg={12} md={12} sm={12}>
@@ -110,7 +110,7 @@ export default function AddChildrenForm() {
                                 { required: true, message: 'This field is required' }
                             ]}
                         >
-                            <Select placeholder="Enter gender here" >
+                            <Select placeholder="Enter gender" >
                                 <Option value="male">Male</Option>
                                 <Option value="female">Female</Option>
                                 <Option value="other">Other</Option>
@@ -125,7 +125,7 @@ export default function AddChildrenForm() {
                                 { required: true, message: 'This field is required' }
                             ]}
                         >
-                            <Input placeholder="Enter address here" />
+                            <Input placeholder="Enter address" />
                         </Form.Item>
                     </Col>
                     <Col xs={24} lg={12} md={12} sm={12}>
@@ -136,7 +136,7 @@ export default function AddChildrenForm() {
                                 { required: true, message: 'This field is required' }
                             ]}
                         >
-                            <Input placeholder="Enter city here" />
+                            <Input placeholder="Enter city" />
                         </Form.Item>
                     </Col>
                     <Col xs={24} lg={12} md={12} sm={12}>
@@ -147,7 +147,7 @@ export default function AddChildrenForm() {
                                 { required: true, message: 'This field is required' }
                             ]}
                         >
-                            <Input placeholder="Enter district here" />
+                            <Input placeholder="Enter district" />
                         </Form.Item>
                     </Col>
                     <Col xs={24} lg={12} md={12} sm={12}>
@@ -158,7 +158,7 @@ export default function AddChildrenForm() {
                                 { required: true, message: 'This field is required' }
                             ]}
                         >
-                            <Input placeholder="Enter postal code here" />
+                            <Input placeholder="Enter postal code" />
                         </Form.Item>
                     </Col>
 

@@ -21,7 +21,6 @@ export default function VaccineDrive() {
     const Map = GoogleMap({
         accessToken:
             'pk.eyJ1IjoibXVoYW1tYWRyYW1peiIsImEiOiJja3h1bWR1MmIxZDNuMnZvMDV5anA1dWo5In0.lvSf-RwHi8ayqE5Ya8Ytjw',
-        container: 'map',
     });
     useEffect(() => {
         location()
