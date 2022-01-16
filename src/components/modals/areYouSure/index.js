@@ -28,8 +28,8 @@ function AreYouSureModal({ showModal, setShowModal, text, onOk }) {
             onCancel={handleCancel}
             onOk={onOk}
             className='custom-modal'
-
-
+            cancelButtonProps={{className:'modal-cancel-btn'}}
+            okButtonProps={{className:'modal-ok-btn'}}
         >
             <div className='mt-2'>
                 <div className='text-center'>

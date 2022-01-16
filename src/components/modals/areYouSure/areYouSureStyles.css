@@ -29,8 +29,21 @@
   /* color: rgb(25, 194, 250); */
   color: red;
 }
-.custom-modal .ant-btn-primary {
-  color: white;
+.custom-modal .modal-ok-btn {
+  color: #ffffff !important;
   background-color: rgb(12, 184, 12);
-  border: none;
+  border: 1px solid rgb(12, 184, 12);
+}
+.custom-modal .ant-modal-footer .modal-ok-btn:hover {
+  background-color: rgb(2, 153, 2) !important;
+  border: 1px solid rgb(12, 184, 12);
+
+}
+.custom-modal .ant-modal-footer .modal-cancel-btn {
+  border: 1px solid red;
+  color: red;
+}
+.custom-modal .ant-modal-footer .modal-cancel-btn:hover {
+  background-color: red;
+  color: #ffffff;
 }
