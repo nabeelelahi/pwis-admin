@@ -33,3 +33,9 @@
 .ant-menu-submenu-arrow {
   color: #ffffff !important;
 }
+
+.ant-layout-sider-trigger{
+background-color:#ffffff !important ;
+color: #44524f !important;
+border-right: 1px solid !important;
+}

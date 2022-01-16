@@ -46,7 +46,7 @@ export default function Workers() {
 
   const columns = [
     {
-      title: 'key',
+      title: 'Id',
       dataIndex: 'key',
       key: 'key'
     }
