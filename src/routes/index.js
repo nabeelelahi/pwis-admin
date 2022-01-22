@@ -8,7 +8,8 @@ import {
     VaccineDrive,
     AddWorker,
     AddChildren,
-    UpdateWorker
+    UpdateWorker,
+    Dashboard
 
 } from '@pages'
 import Login from "../pages/login";
@@ -20,6 +21,8 @@ export default function App() {
         <Router>
             <Routes>
                 <Route path='/'
+                    element={<PrivateRoute><Dashboard /> </PrivateRoute>} />
+                <Route path='/vaccine-drive'
                     element={<PrivateRoute><VaccineDrive /> </PrivateRoute>} />
                 <Route
                     path='/workers'

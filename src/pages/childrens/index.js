@@ -126,7 +126,7 @@ export default function Childrens() {
         {data ?
           <>
             <TableComponent columns={columns} data={data} />
-            <button className='custom-btn' onClick={() => navigate('/add-children')}>Add</button>
+          
           </>
           :
           <Loader />

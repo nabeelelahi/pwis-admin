@@ -7,6 +7,9 @@ import TableComponent from "./table";
 // LOADER
 import Loader from "./loader";
 
+// CARDS
+import {DashboardCard} from "./cards"
+
 // FORMS
 import {
   AddWorkerForm,
@@ -37,5 +40,8 @@ export {
   LoginForm,
 
   // MODALS
-  AreYouSureModal
+  AreYouSureModal,
+
+  // CARDS
+  DashboardCard
 };

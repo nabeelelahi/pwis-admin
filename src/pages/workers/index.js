@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { message, Space, Tag, Typography, Avatar, Image, Input } from 'antd';
-import { LayoutComponent, TableComponent, Loader,AreYouSureModal } from '@components'
+import { LayoutComponent, TableComponent, Loader, AreYouSureModal } from '@components'
 import { useNavigate } from 'react-router';
 import { http } from '@services'
 import './workersStyles.css'
@@ -132,7 +132,7 @@ export default function Workers() {
     },
   ]
 
-  
+
 
   return (
     <LayoutComponent>
@@ -148,9 +148,6 @@ export default function Workers() {
         {data !== null ?
           <>
             <TableComponent columns={columns} data={data} />
-            <button className='custom-btn mt-4' onClick={() => navigate('/add-worker')}>Add</button>
-
-
           </>
 
           :

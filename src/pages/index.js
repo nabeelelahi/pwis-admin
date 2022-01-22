@@ -4,6 +4,7 @@ import RemainingHouses from './remainingHouses'
 import AccountRequests from './accountRequests'
 import VaccineDrive from './vaccineDrive'
 import {UpdateWorker} from "./update"
+import Dashboard from "./dashboard"
 
 import {
     AddWorker,
@@ -22,5 +23,7 @@ export {
     AddChildren,
 
     // UPDATE WORKER
-    UpdateWorker
+    UpdateWorker,
+
+    Dashboard
 }
