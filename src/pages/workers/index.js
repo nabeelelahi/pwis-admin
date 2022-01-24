@@ -17,38 +17,35 @@ export default function Workers() {
 
   const navigate = useNavigate()
 
-  const [data, setData] = useState([
-    { key: 12123, firstName: 'ABC', lastName: 'XYZ', email: 'abcxyz@gmail.com', phone: '031xxxx', cnic: '42101-2689780-8', status: 'ACTIVE', address: 'xyz', city: 'Karachi', district: 'Central', gender: 'male' },
-    { key: 12121, firstName: 'ABC', lastName: 'XYZ', email: 'abcxyz@gmail.com', phone: '031xxxx', cnic: '42101-2689780-8', status: 'ACTIVE', address: 'abc', city: 'Karachi', district: 'Central', gender: 'female' },
-  ])
+  const [data, setData] = useState([])
 
-  // async function getWorkers() {
-  //   const url = `admin/GET/all-workers`;
+  async function getWorkers() {
+    const url = `admin/GET/all-workers`;
 
-  //   const response = await http(url);
+    const response = await http(url);
 
-  //   if (response?.success) {
-  //     setData(response.data)
-  //   }
-  //   else {
-  //     if (response?.message === 'No workers found') {
-  //       setData([])
-  //     } else
-  //       message.error('Something went wrong')
+    if (response?.success) {
+      if (response?.message === 'Ops, no users have been registered yet..') {
+        setData([])
+      }else{
+      setData(response?.data)
+      }
+    }
+    else {
+        message.error('Something went wrong')
+      }
 
-  //   }
+  }
 
-  // }
-
-  // useEffect(() => {
-  //   getWorkers()
-  // }, [])
+  useEffect(() => {
+    getWorkers()
+  }, [])
 
   const columns = [
     {
       title: 'Id',
-      dataIndex: 'key',
-      key: 'key'
+      dataIndex: '_id',
+      key: '_id'
     }
 
     , {

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { message, Space, Tag, Typography, Avatar, Image, Input, Row, Col } from 'antd';
-import { LayoutComponent, TableComponent, Loader, AreYouSureModal, DashboardCard } from '@components'
+import { message, Row, Col } from 'antd';
+import { LayoutComponent, AreYouSureModal, DashboardCard } from '@components'
 import { useNavigate } from 'react-router';
 import { http } from '@services'
 import WorkersIcon from '../../assets/workers.png';
@@ -9,65 +9,91 @@ import HousesIcon from '../../assets/houses.png';
 import VaccineDriveIcon from '../../assets/vaccine-drive.png';
 
 
-const { Title } = Typography
-
-const { Search } = Input
-
 export default function Dashboard() {
 
     const [showModal, setShowModal] = useState(false)
 
-    const [search, setSearch] = useState([])
+    const [houses, setHouses] = useState([])
+    const [workers, setWorkers] = useState([])
+    const [childrens, setChildrens] = useState([])
+    const [vaccineDrives, setVaccineDrives] = useState([])
 
     const navigate = useNavigate()
 
-    const data = null
+    async function getHouses() {
+        const url = `admin/GET/houses/pending`;
 
-    //   const [data, setData] = useState([
-    //     { key: 12123, firstName: 'ABC', lastName: 'XYZ', email: 'abcxyz@gmail.com', phone: '031xxxx', cnic: '42101-2689780-8', status: 'ACTIVE', address: 'xyz', city: 'Karachi', district: 'Central', gender: 'male' },
-    //     { key: 12121, firstName: 'ABC', lastName: 'XYZ', email: 'abcxyz@gmail.com', phone: '031xxxx', cnic: '42101-2689780-8', status: 'ACTIVE', address: 'abc', city: 'Karachi', district: 'Central', gender: 'female' },
-    //   ])
+        const response = await http(url);
 
-    // async function getWorkers() {
-    //   const url = `admin/GET/all-workers`;
+        if (response?.success) {
+            if (response?.message === 'Ops, no users have been registered yet..') {
+                setHouses([])
+            } else {
+                setHouses(response?.data)
+            }
+        }
+        else {
+            message.error("Something went wrong")
+        }
+    }
 
-    //   const response = await http(url);
+    async function getWorkers() {
+        const url = `admin/GET/all-workers`;
+    
+        const response = await http(url);
+    
+        if (response?.success) {
+          if (response?.message === 'Ops, no users have been registered yet..') {
+            setWorkers([])
+          }else{
+            setWorkers(response?.data)
+          }
+        }
+        else {
+            message.error('Something went wrong')
+          }
+      }
 
-    //   if (response?.success) {
-    //     setData(response.data)
-    //   }
-    //   else {
-    //     if (response?.message === 'No workers found') {
-    //       setData([])
-    //     } else
-    //       message.error('Something went wrong')
+      
+  async function getChildrens() {
+    const url = `admin/GET/children`;
 
-    //   }
+    const response = await http(url);
 
-    // }
+    if (response?.success) {
+      if (response?.message === 'Ops, no users have been registered yet..') {
+        setChildrens([])
+      }else{
+        setChildrens(response?.data)
+      }
+    }
+    else {
+        message.error('Something went wrong')
+      }
+  }
 
-    // useEffect(() => {
-    //   getWorkers()
-    // }, [])
 
-
-
+    useEffect(() => {
+        getWorkers()
+        getHouses()
+        getChildrens()
+    }, [])
 
     return (
         <LayoutComponent>
             <div className="container pt-5">
                 <Row gutter={[{ md: 20 }, 20]}>
-                    <Col md={12}>
-                        <DashboardCard icon={WorkersIcon} title="Total Workers" bgColor="bg-orange" value={2344} />
+                    <Col md={12} lg={12} xs={12} sm={24}>
+                        <DashboardCard icon={WorkersIcon} title="Total Workers" bgColor="bg-orange" value={workers?.length} onClick={()=>navigate('/workers')} />
                     </Col>
-                    <Col md={12}>
-                        <DashboardCard icon={ChildrensIcon} title="Total Vaccinated Childrens" bgColor="bg-green" value={2344} />
+                    <Col md={12} lg={12} xs={12} sm={24}>
+                        <DashboardCard icon={ChildrensIcon} title="Total Vaccinated Childrens" bgColor="bg-green" value={childrens?.length} onClick={()=>navigate('/childrens')} />
                     </Col>
-                    <Col md={12}>
-                        <DashboardCard icon={VaccineDriveIcon} title="Total Workers On Vaccine Drive" bgColor="bg-blue" value={2344} />
+                    <Col md={12} lg={12} xs={12} sm={24}>
+                        <DashboardCard icon={VaccineDriveIcon} title="Total Workers On Vaccine Drive" bgColor="bg-blue" value={vaccineDrives?.length} onClick={()=>navigate('/vaccine-drive')} />
                     </Col>
-                    <Col md={12}>
-                        <DashboardCard icon={HousesIcon} title="Total Remaining Houses" bgColor="bg-purple" value={2344} />
+                    <Col md={12} lg={12} xs={12} sm={24}>
+                        <DashboardCard icon={HousesIcon} title="Total Completed Houses" bgColor="bg-purple" value={houses?.length} onClick={()=>navigate('/houses')} />
                     </Col>
                 </Row>
             </div>

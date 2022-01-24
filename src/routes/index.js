@@ -4,7 +4,7 @@ import {
     Workers,
     Childrens,
     AccountRequests,
-    RemainingHouses,
+    Houses,
     VaccineDrive,
     AddWorker,
     AddChildren,
@@ -39,8 +39,8 @@ export default function App() {
                     element={<PrivateRoute><AccountRequests /> </PrivateRoute>}
                 />
                 <Route
-                    path='/remaining-houses'
-                    element={<PrivateRoute><RemainingHouses /></PrivateRoute>} />
+                    path='/houses'
+                    element={<PrivateRoute><Houses /></PrivateRoute>} />
                 <Route
                     path='/add-worker'
                     element={<PrivateRoute><AddWorker /></PrivateRoute>} />

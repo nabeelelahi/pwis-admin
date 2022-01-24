@@ -6,7 +6,6 @@ import { FaChild } from "react-icons/fa"
 import { AiOutlineUserAdd, AiOutlineUsergroupDelete, AiOutlineHome } from "react-icons/ai"
 import { MdOutlineOtherHouses, MdPostAdd, MdOutlineLocationOn, MdOutlineChildCare } from "react-icons/md"
 import { RiUserSettingsLine } from "react-icons/ri"
-// import {MdOutlineLocationOn} from "react-icons/gr"
 import './sidebarStyles.css'
 
 const { Sider } = Layout;
@@ -16,8 +15,6 @@ const { SubMenu } = Menu;
 function SideBar() {
 
   const location = useLocation()?.pathname
-
-  console.log(location)
 
   const [collapsed, setCollapsed] = useState(false)
   const navigate = useNavigate()
@@ -59,9 +56,9 @@ function SideBar() {
             Childrens
           </span>
         </Menu.Item>
-        <Menu.Item className={`${location === '/remaining-houses' ? 'active-menu' : 'sider-menu-item'}`} key='Remaining Houses' onClick={() => navigate('/remaining-houses')} icon={<MdOutlineOtherHouses size={20} />}>
+        <Menu.Item className={`${location === '/houses' ? 'active-menu' : 'sider-menu-item'}`} key='Houses' onClick={() => navigate('/houses')} icon={<MdOutlineOtherHouses size={20} />}>
           <span className='sider-menu-item-title'>
-            Remaining Houses
+            Houses
           </span>
         </Menu.Item>
         <SubMenu
@@ -93,4 +90,3 @@ function SideBar() {
 }
 
 export default SideBar
-// <Menu.Item className="submenu-item " key='Previous' onClick={() => navigate('/previous-appointments')}>Previous</Menu.Item>

@@ -14,7 +14,7 @@ export default function AddWorkerForm() {
 
     const onFinish = (values) => {
         setLoading(true)
-        const url = "someroute"
+        const url = "admin/POST/register-worker"
         const options = {
             method: 'POST',
             body: JSON.stringify(values),
@@ -25,11 +25,11 @@ export default function AddWorkerForm() {
 
         const response = http(url, options)
         if (response?.success) {
-            message.success('Congratulations! Account Has Been Successfully created!')
+            message.success('Congratulations! Worker has been registered successfully!')
             setLoading(false)
         } else {
             setLoading(false)
-            message.error('Something went wrong!')
+            message.error(response?.message)
 
         }
     }
@@ -93,14 +93,28 @@ export default function AddWorkerForm() {
                     <Col xs={24} lg={12} md={12} sm={12}>
                         <Form.Item
                             name="cnic"
-                            label="CNIC"
+                            label="CNIC (without dashes)"
                             rules={[
                                 { required: true, message: 'This field is required' }
                             ]}
                         >
-                            <Input placeholder='Enter cnic ' />
+                            <Input placeholder='Enter cnic' maxLength={13} />
+                        </Form.Item>
+
+                    </Col>
+                    <Col xs={24} lg={12} md={12} sm={12}>
+                        <Form.Item
+                            name="profile"
+                            label="Profile"
+                            rules={[
+                                { required: true, message: 'This field is required' }
+                            ]}
+
+                        >
+                            <input type="file" />
                         </Form.Item>
                     </Col>
+
                     <Col xs={24} lg={12} md={12} sm={12}>
                         <Form.Item
                             name="gender"

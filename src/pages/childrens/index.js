@@ -18,30 +18,29 @@ export default function Childrens() {
   const [showModal, setShowModal] = useState(false)
 
 
-  const [data, setData] = useState([
-    { key: 123, firstName: 'abc', lastName: 'xyz', email: 'abcxyz@gmail.com', phone: '031xxxx', cnic: '42101-232222-2', address: 'abc', status: 'ACTIVE', date: '31 Oct 2021', age: '3 years', previousHouse: 'abc', familyNo: '1', vaccinationStatus: 'DONE',nextVaccDate:'2-feb-2022',description:'Vaccination History Will be here!' },
-    { key: 1234, firstName: '123', lastName: '456', email: '123456@gmail.com', phone: '031xxxx', cnic: '42101-232222-0', address: 'abc', status: 'ACTIVE', date: '31 Oct 2021', age: '3 years', previousHouse: 'abc', familyNo: '2', vaccinationStatus: 'DONE',nextVaccDate:'2-feb-2022',description:'Vaccination History Will be here!' },
+  const [data, setData] = useState([])
 
-  ])
+  async function getChildrens() {
+    const url = `admin/GET/children`;
 
-  // async function getChildrens() {
+    const response = await http(url);
 
-  //   const url = `admin/GET/all-childrens`;
+    if (response?.success) {
+      if (response?.message === 'Ops, no users have been registered yet..') {
+        setData([])
+      }else{
+      setData(response?.data)
+      }
+    }
+    else {
+        message.error('Something went wrong')
+      }
 
-  //   const response = await http(url);
+  }
 
-  //   if (response?.success) {
-  //     setData(response.data)
-  //   }
-  //   else {
-  //     message.error("Something went wrong")
-  //   }
-
-  // }
-
-  // useEffect(() => {
-  //   getChildrens()
-  // }, [])
+  useEffect(() => {
+    getChildrens()
+  }, [])
 
   const columns = [
     {

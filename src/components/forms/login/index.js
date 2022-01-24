@@ -11,34 +11,25 @@ export default function LoginForm() {
 
     async function onFinish(values) {
 
-        // const url = 'admin/POST/login'
-        // const options = {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json'
-        //     },
-        //     body: JSON.stringify(values)
-        // }
+        const url = `admin/GET/login/${values?.email}/${values?.password}`
 
-        // const response = await http(url, options);
+        const response = await http(url);
 
         // if (response?.success) {
-        //     sessionStorage.setItem("admin", JSON.stringify(response.data))
-        //     navigate('/')
+            window.localStorage.setItem('uuid', 'admin')
+            navigate('/')
 
         // }
         // else {
         //     message.error("Either Email or Password is Incorrect")
         // }
-        window.localStorage.setItem('uuid', 'admin')
-        navigate('/')
     };
 
 
 
     return (
         <Row>
-            <Col xl={{span:8,offset:8}} lg={{ span: 10, offset: 7 }} md={{ span: 12, offset: 6 }} sm={{ span: 16, offset: 4 }} xs={{span:22,offset:1}}>
+            <Col xl={{ span: 8, offset: 8 }} lg={{ span: 10, offset: 7 }} md={{ span: 12, offset: 6 }} sm={{ span: 16, offset: 4 }} xs={{ span: 22, offset: 1 }}>
                 <div className="login-card">
                     <h1 className="login-heading">Login</h1>
                     <Form

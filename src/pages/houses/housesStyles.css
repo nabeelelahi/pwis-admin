@@ -1,0 +1,11 @@
+.text-right {
+  float: right;
+}
+.select-status {
+  border: 1px solid #44524f;
+  font-size: 15px;
+  height: 100%;
+  outline: none;
+  padding: 0px 10px;
+  border-radius: 3px;
+}
