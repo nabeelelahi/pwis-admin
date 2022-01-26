@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { LayoutComponent, Loader, UpdateWorkerForm } from '@components'
+import React from 'react';
+import { LayoutComponent, UpdateWorkerForm } from '@components'
 
 
 export default function UpdateWorker() {

@@ -13,7 +13,7 @@ export default function Workers() {
 
   const [showModal, setShowModal] = useState(false)
 
-  const [search, setSearch] = useState([])
+  const [search, setSearch] = useState('')
 
   const navigate = useNavigate()
 
@@ -27,19 +27,35 @@ export default function Workers() {
     if (response?.success) {
       if (response?.message === 'Ops, no users have been registered yet..') {
         setData([])
-      }else{
-      setData(response?.data)
+      } else {
+        setData(response?.data)
       }
     }
     else {
-        message.error('Something went wrong')
-      }
+      message.error('Something went wrong')
+    }
+  }
 
+  async function searchWorkers() {
+    const url = `admin/GET/search/workers/${search}`;
+
+    const response = await http(url);
+
+    if (response?.success) {
+      if (response?.message === 'Ops, no users have been registered yet..') {
+        setData([])
+      } else {
+        setData(response?.data)
+      }
+    }
+    else {
+      message.error("Something went wrong")
+    }
   }
 
   useEffect(() => {
     getWorkers()
-  }, [])
+  }, [search === ''])
 
   const columns = [
     {
@@ -52,12 +68,12 @@ export default function Workers() {
       title: 'Profile',
       dataIndex: 'profile',
       key: 'profile',
-      render: () => {
+      render: (text) => {
         return <Avatar
           size={50}
           src={
             <Image
-              src="https://joeschmoe.io/api/v1/random"
+              src={text}
               style={{
                 wkeyth: 50,
               }}
@@ -137,19 +153,12 @@ export default function Workers() {
         <Title className='heading'>Workers</Title>
         <div className='mb-3 search-box-container' >
           <Search placeholder="Search workers" enterButton="Search" size="large" loading={false} className='search-input mr-3'
-            onChange={(e) => console.log(e.target.value)}
+            onChange={(e) => setSearch(e.target.value)}
             value={search}
-
+            onSearch={() => searchWorkers()}
           />
         </div>
-        {data !== null ?
-          <>
-            <TableComponent columns={columns} data={data} />
-          </>
-
-          :
-          <Loader />
-        }
+        <TableComponent columns={columns} data={data} />
       </div>
       <AreYouSureModal showModal={showModal} setShowModal={setShowModal} text={'Do you really want to delete this worker?'} onOk={() => console.log('onOk')} />
     </LayoutComponent>

@@ -38,7 +38,6 @@ export default function LoginForm() {
                         layout='vertical'
                         onFinish={onFinish}
                         scrollToFirstError
-                    // onFinishFailed={onFinishFailed}
                     >
                         <Form.Item
                             label="Email"

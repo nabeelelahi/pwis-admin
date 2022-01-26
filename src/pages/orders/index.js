@@ -80,12 +80,7 @@ export default function Orders() {
       <div className="container">
 
         <Title className='heading'>Orders</Title>
-        {
-          data ?
             <TableComponent columns={columns} data={data} />
-            :
-            <Loader />
-        }
       </div>
     </LayoutComponent >
   )

@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Tag, Space, message, Typography, Input } from 'antd';
-import { LayoutComponent, TableComponent, Loader, AreYouSureModal } from '@components'
+import { LayoutComponent, TableComponent, AreYouSureModal } from '@components'
 import { http } from '@services'
-import { useNavigate } from 'react-router';
 import "./childrenStyles.css"
 
 const { Title } = Typography
@@ -11,9 +10,7 @@ const { Search } = Input
 
 export default function Childrens() {
 
-  const navigate = useNavigate()
-
-  const [search, setSearch] = useState([])
+  const [search, setSearch] = useState('')
 
   const [showModal, setShowModal] = useState(false)
 
@@ -26,21 +23,17 @@ export default function Childrens() {
     const response = await http(url);
 
     if (response?.success) {
-      if (response?.message === 'Ops, no users have been registered yet..') {
-        setData([])
-      }else{
       setData(response?.data)
-      }
     }
     else {
-        message.error('Something went wrong')
-      }
+      message.error('Something went wrong')
+    }
 
   }
 
   useEffect(() => {
     getChildrens()
-  }, [])
+  }, [search === ''])
 
   const columns = [
     {
@@ -111,25 +104,33 @@ export default function Childrens() {
     },
   ]
 
+  async function searchChildrens() {
+    const url = `admin/GET/search/children/${search}`;
+
+    const response = await http(url);
+
+    if (response?.success) {
+      setData(response?.data)
+    }
+    else {
+      message.error("Something went wrong")
+    }
+  }
+
+
   return (
     <LayoutComponent>
       <div className="container">
         <Title className='heading'>Childrens</Title>
         <div className='mb-3 search-box-container' >
           <Search placeholder="Search childrens" enterButton="Search" size="large" loading={false} className='search-input mr-3'
-            onChange={(e) => console.log(e.target.value)}
+            onChange={(e) => setSearch(e.target.value)}
             value={search}
+            onSearch={() => searchChildrens()}
 
           />
         </div>
-        {data ?
-          <>
-            <TableComponent columns={columns} data={data} />
-          
-          </>
-          :
-          <Loader />
-        }
+        <TableComponent columns={columns} data={data} />
       </div>
       <AreYouSureModal showModal={showModal} setShowModal={setShowModal} text={'Do you really want to delete this children?'} onOk={() => console.log('onOk')} />
     </LayoutComponent>

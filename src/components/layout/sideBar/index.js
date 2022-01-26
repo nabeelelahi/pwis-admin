@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { Layout, Menu } from 'antd';
 import { useNavigate, useLocation } from 'react-router';
 import { handleScreenChange } from '@helpers'
-import { FaChild } from "react-icons/fa"
 import { AiOutlineUserAdd, AiOutlineUsergroupDelete, AiOutlineHome } from "react-icons/ai"
 import { MdOutlineOtherHouses, MdPostAdd, MdOutlineLocationOn, MdOutlineChildCare } from "react-icons/md"
 import { RiUserSettingsLine } from "react-icons/ri"

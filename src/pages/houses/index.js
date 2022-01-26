@@ -10,8 +10,8 @@ const { Search } = Input
 
 export default function Houses() {
 
-  const [search, setSearch] = useState([])
-  const [status, setStatus] = useState("")
+  const [search, setSearch] = useState()
+  const [status, setStatus] = useState("vaccinated")
 
   const [data, setData] = useState([])
 
@@ -36,7 +36,7 @@ export default function Houses() {
   useEffect(() => {
     getHouses()
 
-  }, [status])
+  }, [status, search===''])
 
   const columns = [
     {
@@ -77,6 +77,20 @@ export default function Houses() {
     },
   ]
 
+  async function searchHouses() {
+    const url = `admin/GET/search/houses/${search}`;
+
+    const response = await http(url);
+
+    if (response?.success) {
+        setData(response?.data)
+    }
+    else {
+      message.error("Something went wrong")
+    }
+  }
+
+
   return (
     <LayoutComponent>
       <div className="container">
@@ -84,10 +98,10 @@ export default function Houses() {
         <Title className='heading'>Houses</Title>
         <Row className='mb-3' >
           <Col className=' search-box-container' span={8} offset={8} >
-            <Search placeholder="Search remaining houses" enterButton="Search" size="large" loading={false} className='search-input mr-3'
-              onChange={(e) => console.log(e.target.value)}
+            <Search placeholder="Search houses" enterButton="Search" size="large" loading={false} className='search-input mr-3'
+              onChange={(e) => setSearch(e.target.value)}
               value={search}
-
+              onSearch={()=>searchHouses()}
             />
           </Col>
           <Col span={8} >
@@ -97,12 +111,8 @@ export default function Houses() {
             </select>
           </Col>
         </Row>
-        {
-          data ?
             <TableComponent columns={columns} data={data} />
-            :
-            <Loader />
-        }
+            
       </div>
     </LayoutComponent >
   )

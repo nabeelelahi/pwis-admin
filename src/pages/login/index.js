@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { LoginForm, LayoutComponent } from '@components'
 import "./loginStyles.css"
 

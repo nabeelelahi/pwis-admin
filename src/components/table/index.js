@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { Table } from "antd";
 
-const { Column }=Table
-
 export default function TableComponent({ columns, data}) {
   const [pagination, setPagination] = useState({
     current: 1,
@@ -14,7 +12,6 @@ export default function TableComponent({ columns, data}) {
   }
 
   return (
-    <>
       <Table
         scroll={{ x: 'max-content' }}
         columns={columns}
@@ -29,14 +26,5 @@ export default function TableComponent({ columns, data}) {
           rowExpandable: record => record?.description ,
         }}
      />
-
-    </>
   );
 }
-
-// {
-  //   data.map((item,index)=>{
-  //     return <Column key={index} dataIndex={item} filtered={true} filters={item}/>
-  //   })
-  // }
-  // </Table>

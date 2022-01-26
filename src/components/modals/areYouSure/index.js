@@ -1,5 +1,5 @@
-import React, { useEffect, useLayoutEffect, useState } from 'react'
-import { Modal, Button, Space, Typography, Tag } from 'antd';
+import React, {useLayoutEffect, useState } from 'react'
+import { Modal, Typography} from 'antd';
 import { AiOutlineInfoCircle } from "react-icons/ai"
 import { handleModalSize } from "@helpers"
 import "./areYouSureStyles.css"
