@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { Table } from "antd";
 
-export default function TableComponent({ columns, data}) {
+export default function TableComponent({ columns, data }) {
   const [pagination, setPagination] = useState({
     current: 1,
     pageSize: 8,
+
   });
 
   function handlePagination(pagination) {
@@ -12,19 +13,19 @@ export default function TableComponent({ columns, data}) {
   }
 
   return (
-      <Table
-        scroll={{ x: 'max-content' }}
-        columns={columns}
-        pagination={pagination}
-        onChange={handlePagination}
-        dataSource={data}
-        expandable={{
-          expandedRowRender: (record) => (
-      
-           record?.description &&  <p style={{ margin: 0 }}>{record?.description} </p>
-          ),
-          rowExpandable: record => record?.description ,
-        }}
-     />
+    <Table
+      scroll={{ x: 'max-content' }}
+      columns={columns}
+      pagination={pagination}
+      onChange={handlePagination}
+      dataSource={data}
+      expandable={{
+        expandedRowRender: (record) => (
+
+          record?.description && <p style={{ margin: 0 }}>{record?.description} </p>
+        ),
+        rowExpandable: record => record?.description,
+      }}
+    />
   );
 }

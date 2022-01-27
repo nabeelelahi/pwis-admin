@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import {
     Workers,
     Childrens,
-    AccountRequests,
     Houses,
     VaccineDrive,
     AddWorker,
@@ -34,10 +33,6 @@ export default function App() {
                     element={<PrivateRoute><Childrens /></PrivateRoute>}
                 />
 
-                <Route
-                    path='/account-requests'
-                    element={<PrivateRoute><AccountRequests /> </PrivateRoute>}
-                />
                 <Route
                     path='/houses'
                     element={<PrivateRoute><Houses /></PrivateRoute>} />

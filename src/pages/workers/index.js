@@ -138,7 +138,7 @@ export default function Workers() {
       fixed: 'right',
       render: (text, record) => (
         <Space size="mkeydle">
-          <Tag color={'green'} onClick={() => navigate('/update-worker')} >Edit</Tag>
+          <Tag color={'green'} onClick={() => navigate('/update-worker',{state:record})} >Edit</Tag>
           <Tag color={'red'} onClick={() => setShowModal(true)} >Delete</Tag>
         </Space>
       ),

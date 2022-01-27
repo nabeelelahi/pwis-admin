@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Form, Input, Select, Row, Col, Button, Typography, message, } from 'antd';
 import { http } from "@services"
+import { useLocation } from 'react-router';
 
 const { Title } = Typography
 
@@ -32,18 +33,7 @@ export default function UpdateWorkerForm() {
 
         }
     }
-    const state = {
-        firstName: '',
-        lastName: '',
-        email: '',
-        phone: '',
-        cnic: '',
-        gender: '',
-        address: '',
-        city: '',
-        district: '',
-        postalCode: '',
-    }
+    const state = useLocation().state
 
     return (
         <div>
@@ -188,7 +178,7 @@ export default function UpdateWorkerForm() {
 
                     <Col xs={24} lg={24} md={24} sm={24}>
                         <Form.Item>
-                            <Button loading={loading} type="primary" htmlType="submit" className='custom-btn'>
+                            <Button loading={loading} type="primary" htmlType="submit" className='custom-btn mt-1'>
                                 Update
                             </Button>
                         </Form.Item>

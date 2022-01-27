@@ -1,7 +1,6 @@
 import Workers from './workers'
 import Childrens from './childrens'
 import Houses from './houses'
-import AccountRequests from './accountRequests'
 import VaccineDrive from './vaccineDrive'
 import {UpdateWorker} from "./update"
 import Dashboard from "./dashboard"
@@ -14,7 +13,6 @@ import {
 export {
     Workers,
     Childrens,
-    AccountRequests,
     Houses,
     VaccineDrive,
 

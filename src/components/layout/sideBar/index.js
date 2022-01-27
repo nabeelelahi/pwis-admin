@@ -4,7 +4,6 @@ import { useNavigate, useLocation } from 'react-router';
 import { handleScreenChange } from '@helpers'
 import { AiOutlineUserAdd, AiOutlineUsergroupDelete, AiOutlineHome } from "react-icons/ai"
 import { MdOutlineOtherHouses, MdPostAdd, MdOutlineLocationOn, MdOutlineChildCare } from "react-icons/md"
-import { RiUserSettingsLine } from "react-icons/ri"
 import './sidebarStyles.css'
 
 const { Sider } = Layout;
@@ -78,11 +77,7 @@ function SideBar() {
           </Menu.ItemGroup>
         </SubMenu>
 
-        <Menu.Item className={`${location === '/account-requests' ? 'active-menu' : 'sider-menu-item'}`} key='account-requests' onClick={() => navigate('/account-requests')} icon={<RiUserSettingsLine size={20} />}>
-          <span className='sider-menu-item-title'>
-            Account Requests
-          </span>
-        </Menu.Item>
+       
       </Menu>
     </Sider>
   )
