@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { message, Space, Tag, Typography, Avatar, Image, Input } from 'antd';
+import { message, Space, Tag, Typography, Avatar, Image, Input, Radio } from 'antd';
 import { LayoutComponent, TableComponent, Loader, AreYouSureModal } from '@components'
 import { useNavigate } from 'react-router';
 import { http } from '@services'
@@ -37,15 +37,21 @@ export default function Workers() {
   }
 
   async function searchWorkers() {
-    const url = `admin/GET/search/workers/${search}`;
+    const url = `admin/GET/search/workers`;
 
-    const response = await http(url);
+    const options = {
+      method: 'POST',
+      'content-type': 'application/json',
+      body: JSON.stringify({ email: search })
+    }
+
+    const response = await http(url, options);
 
     if (response?.success) {
       if (response?.message === 'Ops, no users have been registered yet..') {
         setData([])
       } else {
-        setData(response?.data)
+        setData(response?.results)
       }
     }
     else {
@@ -138,7 +144,7 @@ export default function Workers() {
       fixed: 'right',
       render: (text, record) => (
         <Space size="mkeydle">
-          <Tag color={'green'} onClick={() => navigate('/update-worker',{state:record})} >Edit</Tag>
+          <Tag color={'green'} onClick={() => navigate('/update-worker', { state: record })} >Edit</Tag>
           <Tag color={'red'} onClick={() => setShowModal(true)} >Delete</Tag>
         </Space>
       ),
@@ -152,11 +158,15 @@ export default function Workers() {
       <div className="container">
         <Title className='heading'>Workers</Title>
         <div className='mb-3 search-box-container' >
-          <Search placeholder="Search workers" enterButton="Search" size="large" loading={false} className='search-input mr-3'
+          <Search placeholder="Search workers" enterButton="Search" size="large" loading={false} className='search-input'
             onChange={(e) => setSearch(e.target.value)}
             value={search}
             onSearch={() => searchWorkers()}
           />
+          <Radio.Group name="radiogroup" defaultValue={'email'}>
+            <Radio value={'email'}>With Email</Radio>
+            <Radio value={'name'}>With Name</Radio>
+          </Radio.Group>
         </div>
         <TableComponent columns={columns} data={data} />
       </div>

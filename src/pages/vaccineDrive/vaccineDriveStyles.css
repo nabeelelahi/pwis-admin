@@ -1,0 +1,25 @@
+.map-container {
+  width: 100%;
+  height: 690px;
+  padding: 5%;
+}
+.map-container .map {
+  width: 100%;
+  height: 100%;
+  border: 1px solid #44524f;
+  border-radius: 15px;
+
+}
+
+@media (max-width: 600px) {
+    .map-container {
+      min-height: 600px;
+    }
+  }
+  
+  @media (min-width:1200px) {
+    .map-container{
+      min-height: 900px;
+    }
+  }
+  

@@ -9,3 +9,30 @@
   padding: 0px 10px;
   border-radius: 3px;
 }
+.text-left {
+  text-align: left;
+}
+.houses-search-box-container {
+  display: flex;
+  flex-direction: row;
+  justify-self: flex-start;
+  align-items: center;
+}
+.houses-search-box-container .search-input {
+  width: 260px !important;
+}
+.houses-search-box-container .ant-radio-group{
+  display: flex;
+}
+
+@media screen and (min-width: 1440px) {
+  .houses-search-box-container {
+    transform: translate(10%, 0%);
+  }
+}
+
+@media screen and (min-width: 2560px) {
+  .houses-search-box-container {
+    transform: translate(15%, 0%);
+  }
+}

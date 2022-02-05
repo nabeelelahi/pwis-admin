@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Tag, Space, message, Typography, Input, Row, Col } from 'antd';
+import { Tag, Space, message, Typography, Input, Row, Col, Radio } from 'antd';
 import { LayoutComponent, TableComponent, Loader } from '@components'
 import { http } from '@services'
 import "./housesStyles.css"
@@ -36,7 +36,7 @@ export default function Houses() {
   useEffect(() => {
     getHouses()
 
-  }, [status, search===''])
+  }, [status, search === ''])
 
   const columns = [
     {
@@ -83,7 +83,7 @@ export default function Houses() {
     const response = await http(url);
 
     if (response?.success) {
-        setData(response?.data)
+      setData(response?.data)
     }
     else {
       message.error("Something went wrong")
@@ -96,24 +96,35 @@ export default function Houses() {
       <div className="container">
 
         <Title className='heading'>Houses</Title>
+
         <Row className='mb-3' >
-          <Col className=' search-box-container' span={8} offset={8} >
-            <Search placeholder="Search houses" enterButton="Search" size="large" loading={false} className='search-input mr-3'
-              onChange={(e) => setSearch(e.target.value)}
-              value={search}
-              onSearch={()=>searchHouses()}
-            />
-          </Col>
-          <Col span={8} >
-            <select value={status} className='text-right select-status' onChange={(e) => setStatus(e.target.value)}>
+          <Col span={8}>
+            <select value={status} className='select-status' onChange={(e) => setStatus(e.target.value)}>
               <option value="vaccinated">Vaccinated</option>
               <option value="rejected">Rejected</option>
             </select>
           </Col>
+
+          <Col span={16}>
+            <div className='houses-search-box-container'>
+              <Search placeholder="Search houses with cnic" enterButton="Search" size="large" loading={false} className='search-input'
+                onChange={(e) => setSearch(e.target.value)}
+                value={search}
+                onSearch={() => searchHouses()}
+              />
+
+            </div>
+
+
+          </Col>
         </Row>
-            <TableComponent columns={columns} data={data} />
-            
+        <TableComponent columns={columns} data={data} />
+
       </div>
     </LayoutComponent >
   )
 }
+
+// <Radio.Group name="radiogroup" defaultValue={1}>
+//   <Radio value={'cnic'}>With cnic</Radio>
+// </Radio.Group>

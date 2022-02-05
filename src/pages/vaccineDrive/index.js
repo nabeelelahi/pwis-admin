@@ -1,120 +1,95 @@
-import React, { useEffect, useState } from "react";
-import { LayoutComponent } from '@components'
-import {Avatar} from "antd"
-import ReactMapGL, {
-  Marker, Popup, NavigationControl,
- } from 'react-map-gl'
-import './styles.css'
+import React, { useState, useEffect, useRef, useLayoutEffect } from "react"
+import { LayoutComponent } from "@components"
+import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet"
+import { FullscreenControl } from "react-leaflet-fullscreen";
+import "react-leaflet-fullscreen/dist/styles.css";
+import Leaflet from "leaflet"
+import 'leaflet/dist/leaflet.css'
+import "./vaccineDriveStyles.css"
 
 export default function VaccineDrive() {
+    const [map, setMap] = useState(null)
+    const mapRef = useRef(null)
+    const center = [24.8546842, 67.0207055]
 
-  const [loc, setLoc] = useState({
-    longitude: 67.0583856,
-    latitude: 24.977495
-  })
+    // For My Location
+    const [myCoords, setLoc] = useState([24.854600, 67.0207055])
 
-  function location() {
-    navigator.geolocation.getCurrentPosition(pos => {
-      setLoc({ longitude: pos.coords.longitude, latitude: pos.coords.latitude })
+    function location() {
+        navigator.geolocation.getCurrentPosition(pos => {
+            setLoc([pos.coords.latitude, pos.coords.longitude])
+        })
+    }
+
+    useLayoutEffect(() => {
+        location()
+
+    }, [])
+    useEffect(() => {
+        map?.flyTo(myCoords, 11)
+
+
+    }, [myCoords]);
+
+
+    let pointer = Leaflet.icon({
+        iconUrl: "https://xuonginthanhpho.com/wp-content/uploads/2020/03/map-marker-icon.png",
+        iconSize: [50, 50],
+        shadowSize: [50, 64],
+        iconAnchor: [22, 94],
+        shadowAnchor: [4, 62],
+        popupAnchor: [4, -80],
     })
-  }
-  useEffect(() => {
-    location()
-    console.log('Loc', loc)
-  }, [])
-
-  const liveWorkers = [
-    { id: 123, lan: 67.10449218750001, lat: 25.07316070640961 },
-    { id: 124, lan: 67.13504791259767, lat: 25.021217616954733 },
-    { id: 125, lan: 67.12964057922365, lat: 25.021062065689673 },
-    { id: 126, lan: 67.13058471679689, lat: 25.015462088877463 },
-  ]
-
-  const [viewport, setViewport] = useState({
-    width: "100%",
-    height: "100vh",
-    latitude: loc.latitude,
-    longitude: loc.longitude,
-    zoom: 7,
-    minZoom: 2,
-
-  });
-  const [showPopup, togglePopup] = useState(false);
-  const [open, setOpen] = useState();
 
 
-  return (
-    <LayoutComponent>
-      <div className="map-box">
 
+    const points = [
+        [25.07316070640961, 67.10449218750001],
+        [25.021217616954733, 67.13504791259767],
+        [25.021062065689673, 67.12964057922365],
+        [25.015462088877463, 25.015462088877463],
+    ]
 
-        <ReactMapGL
-          {...viewport}
-          mapStyle="mapbox://styles/mapbox/streets-v11"
-          onViewportChange={(viewport) => setViewport(viewport)}
-          mapboxApiAccessToken=""
-          className="overflow-x  map"
+    return (
+        <LayoutComponent>
+            <div className="map-container">
+                <MapContainer
+                    center={center}
+                    ref={mapRef}
+                    zoom={20}
+                    whenCreated={setMap}
+                    className="map"
+                    scrollWheelZoom={false}
 
-        >
-
-          <Marker
-            latitude={loc.latitude}
-            longitude={loc.longitude}
-            offsetLeft={-20}
-            offsetTop={-30}
-            className="marker"
-          >
-            <img
-              onClick={() => togglePopup()}
-              style={{ height: 50, width: 50 }}
-              src="https://xuonginthanhpho.com/wp-content/uploads/2020/03/map-marker-icon.png"
-            />
-          </Marker>
-          {
-            liveWorkers?.map(item => {
-              return (
-                <Marker
-                  latitude={item.lat}
-                  longitude={item.lan}
-                  offsetLeft={-20}
-                  offsetTop={-30}
-                  className="marker"
                 >
-                  <img
-                    onClick={() => {
-                      setOpen(item)
-                      togglePopup(true)
-                    }}
-                    style={{ height: 50, width: 50 }}
-                    src="https://xuonginthanhpho.com/wp-content/uploads/2020/03/map-marker-icon.png"
-                  />
-
-                </Marker>
-              )
-            })
-          }
-          {
-            showPopup && <Popup
-              latitude={open?.lat}
-              longitude={open?.lan}
-              closeButton={true}
-              closeOnClick={true}
-              onClose={() => togglePopup(false)}
-              anchor="top-right" >
-              <div className="marker-pop-box">
-              <h6>Worker 1</h6>
-              <Avatar src="https://joeschmoe.io/api/v1/random" size={40} />
-              </div>
-
-            </Popup>
-          }
-
-          <NavigationControl className="right-zoom" />
-        </ReactMapGL>
-      </div>
-    </LayoutComponent >
+                    <TileLayer
+                        // attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    />
 
 
-  );
+                    <Marker position={myCoords} icon={pointer}>
+                        <Popup>
+                            <div>My Location</div>
 
+                        </Popup>
+                    </Marker>
+
+                    {
+                        points?.map(item => {
+                            return (
+                                <Marker position={item} icon={pointer}>
+                                    <Popup>
+                                        <div>Worker Information will be here</div>
+
+                                    </Popup>
+                                </Marker>
+                            )
+                        })
+                    }
+                    <FullscreenControl />
+                </MapContainer>
+            </div>
+        </LayoutComponent >
+    )
 }

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Tag, Space, message, Typography, Input } from 'antd';
+import { Tag, Space, message, Typography, Input, Radio } from 'antd';
 import { LayoutComponent, TableComponent, AreYouSureModal } from '@components'
 import { http } from '@services'
 import "./childrenStyles.css"
@@ -122,13 +122,16 @@ export default function Childrens() {
     <LayoutComponent>
       <div className="container">
         <Title className='heading'>Childrens</Title>
-        <div className='mb-3 search-box-container' >
-          <Search placeholder="Search childrens" enterButton="Search" size="large" loading={false} className='search-input mr-3'
+        <div className='mb-3 search-box-container'>
+          <Search placeholder="Search childrens" enterButton="Search" size="large" loading={false} className='search-input'
             onChange={(e) => setSearch(e.target.value)}
             value={search}
             onSearch={() => searchChildrens()}
-
           />
+          <Radio.Group name="radiogroup" defaultValue={'cnic'}>
+            <Radio value={'cnic'}>With cnic</Radio>
+            <Radio value={'family-no'}>With Family No</Radio>
+          </Radio.Group>
         </div>
         <TableComponent columns={columns} data={data} />
       </div>
