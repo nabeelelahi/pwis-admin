@@ -15,7 +15,9 @@ import {
   AddWorkerForm,
   AddChildrenForm,
   LoginForm,
-  UpdateWorkerForm
+  UpdateWorkerForm,
+  UpdateChildrenForm,
+  UpdateHouseForm
 } from "./forms";
 
 // MODALS
@@ -38,6 +40,8 @@ export {
   AddChildrenForm,
   UpdateWorkerForm,
   LoginForm,
+  UpdateChildrenForm,
+  UpdateHouseForm,
 
   // MODALS
   AreYouSureModal,

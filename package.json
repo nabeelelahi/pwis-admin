@@ -11,11 +11,15 @@
     "@testing-library/user-event": "^12.2.2",
     "antd": "^4.18.2",
     "google-map-react": "^2.1.10",
+    "leaflet": "^1.7.1",
     "mapbox-gl": "^2.6.1",
+    "moment": "^2.29.1",
     "ol": "^6.12.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-icons": "^4.1.0",
+    "react-leaflet": "^3.2.5",
+    "react-leaflet-fullscreen": "^2.0.2",
     "react-map-gl": "^6.1.19",
     "react-mapbox-gl": "^5.1.1",
     "react-router": "^6.2.1",
@@ -35,18 +39,11 @@
       "react-app/jest"
     ]
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not op_mini all"
+  ],
   "devDependencies": {
     "css-loader": "^6.5.1",
     "style-loader": "^3.3.1"

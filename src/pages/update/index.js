@@ -1,5 +1,9 @@
 import UpdateWorker from "./worker"
+import UpdateChildren from "./children"
+import UpdateHouse from "./house"
 
 export {
-    UpdateWorker
+    UpdateWorker,
+    UpdateChildren,
+    UpdateHouse
 }

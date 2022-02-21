@@ -18,6 +18,8 @@ export default function Workers() {
   const navigate = useNavigate()
 
   const [data, setData] = useState([])
+  const [deletingId, setDeletingId] = useState('')
+
 
   async function getWorkers() {
     const url = `admin/GET/all-workers`;
@@ -25,11 +27,7 @@ export default function Workers() {
     const response = await http(url);
 
     if (response?.success) {
-      if (response?.message === 'Ops, no users have been registered yet..') {
-        setData([])
-      } else {
-        setData(response?.data)
-      }
+      setData(response?.data)
     }
     else {
       message.error('Something went wrong')
@@ -48,16 +46,36 @@ export default function Workers() {
     const response = await http(url, options);
 
     if (response?.success) {
-      if (response?.message === 'Ops, no users have been registered yet..') {
-        setData([])
-      } else {
         setData(response?.results)
-      }
     }
     else {
       message.error("Something went wrong")
     }
   }
+
+  async function deleteWorker() {
+    const url = `admin/DELETE/delete-worker/${deletingId}`;
+    const options = {
+      method: 'DELETE',
+      headers: {
+        'content-type': 'application/json'
+      }
+    }
+
+    const response = await http(url, options);
+
+    if (response?.success) {
+      message.success('Worker deleted successfully')
+      await getWorkers()
+      setShowModal(false)
+    }
+    else {
+      message.error('Something went wrong')
+    }
+
+  }
+
+
 
   useEffect(() => {
     getWorkers()
@@ -65,27 +83,25 @@ export default function Workers() {
 
   const columns = [
     {
-      title: 'Id',
-      dataIndex: '_id',
-      key: '_id'
+      title: 'Sno',
+      key: '_id',
+      render:(text,record, index)=>{
+        return(
+          <span>{index+1}</span>
+        )
+      }
     }
 
     , {
       title: 'Profile',
       dataIndex: 'profile',
       key: 'profile',
-      render: (text) => {
+      render: (text, record) => {
         return <Avatar
           size={50}
-          src={
-            <Image
-              src={text}
-              style={{
-                wkeyth: 50,
-              }}
-            />
-          }
-        />
+          className={record.gender ==='male' ? 'green-bg' :'orange-bg'}
+        >{`${record?.firstName.substring(0, 1).toUpperCase()}${record?.lastName.substring(0, 1).toUpperCase()}`}
+        </Avatar>
       }
 
     },
@@ -138,14 +154,17 @@ export default function Workers() {
       key: 'address',
     },
     {
-      title: 'Action',
+      title: 'Actions',
       key: 'action',
       dataIndex: 'status',
       fixed: 'right',
       render: (text, record) => (
-        <Space size="mkeydle">
+        <Space size="middle">
           <Tag color={'green'} onClick={() => navigate('/update-worker', { state: record })} >Edit</Tag>
-          <Tag color={'red'} onClick={() => setShowModal(true)} >Delete</Tag>
+          <Tag color={'red'} onClick={() => {
+            setDeletingId(record?._id)
+            setShowModal(true)
+          }} >Delete</Tag>
         </Space>
       ),
     },
@@ -170,7 +189,7 @@ export default function Workers() {
         </div>
         <TableComponent columns={columns} data={data} />
       </div>
-      <AreYouSureModal showModal={showModal} setShowModal={setShowModal} text={'Do you really want to delete this worker?'} onOk={() => console.log('onOk')} />
+      <AreYouSureModal showModal={showModal} setShowModal={setShowModal} text={'Do you really want to delete this worker?'} onOk={() => deleteWorker()} />
     </LayoutComponent>
   )
 }

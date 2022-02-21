@@ -8,7 +8,9 @@ import {
     AddWorker,
     AddChildren,
     UpdateWorker,
-    Dashboard
+    UpdateChildren,
+    Dashboard,
+    UpdateHouse
 
 } from '@pages'
 import Login from "../pages/login";
@@ -27,7 +29,6 @@ export default function App() {
                     path='/workers'
                     element={<PrivateRoute><Workers /></PrivateRoute>}
                 />
-
                 <Route
                     path='/childrens'
                     element={<PrivateRoute><Childrens /></PrivateRoute>}
@@ -45,6 +46,12 @@ export default function App() {
                 <Route
                     path='/update-worker'
                     element={<PrivateRoute><UpdateWorker /></PrivateRoute>} />
+                <Route
+                    path='/update-children'
+                    element={<PrivateRoute><UpdateChildren /></PrivateRoute>} />
+                <Route
+                    path='/update-house'
+                    element={<PrivateRoute><UpdateHouse /></PrivateRoute>} />
 
                 <Route path='/login' element={<Login />} />
 

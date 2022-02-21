@@ -21,10 +21,8 @@ export default function Dashboard() {
     const navigate = useNavigate()
 
     async function getHouses() {
-        const url = `admin/GET/houses/pending`;
-
+        const url = `admin/GET/houses/vaccinated`;
         const response = await http(url);
-
         if (response?.success) {
             if (response?.message === 'Ops, no users have been registered yet..') {
                 setHouses([])
@@ -32,16 +30,11 @@ export default function Dashboard() {
                 setHouses(response?.data)
             }
         }
-        else {
-            message.error("Something went wrong")
-        }
     }
 
     async function getWorkers() {
         const url = `admin/GET/all-workers`;
-    
-        const response = await http(url);
-    
+        const response = await http(url);    
         if (response?.success) {
           if (response?.message === 'Ops, no users have been registered yet..') {
             setWorkers([])
@@ -49,29 +42,19 @@ export default function Dashboard() {
             setWorkers(response?.data)
           }
         }
-        else {
-            message.error('Something went wrong')
-          }
       }
 
       
   async function getChildrens() {
     const url = `admin/GET/children`;
-
     const response = await http(url);
-
     if (response?.success) {
-      if (response?.message === 'Ops, no users have been registered yet..') {
-        setChildrens([])
-      }else{
         setChildrens(response?.data)
-      }
-    }
+     }
     else {
         message.error('Something went wrong')
       }
   }
-
 
     useEffect(() => {
         getWorkers()

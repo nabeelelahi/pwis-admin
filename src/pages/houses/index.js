@@ -1,17 +1,22 @@
 import React, { useState, useEffect } from 'react'
 import { Tag, Space, message, Typography, Input, Row, Col, Radio } from 'antd';
-import { LayoutComponent, TableComponent, Loader } from '@components'
+import { LayoutComponent, TableComponent, Loader, AreYouSureModal } from '@components'
 import { http } from '@services'
 import "./housesStyles.css"
+import { useNavigate } from 'react-router';
 
 const { Title } = Typography
 
 const { Search } = Input
 
 export default function Houses() {
+  const navigate = useNavigate()
 
   const [search, setSearch] = useState()
   const [status, setStatus] = useState("vaccinated")
+  const [isDeleting, setIsDeleing] = useState("")
+  const [showModal, setShowModal] = useState(false)
+
 
   const [data, setData] = useState([])
 
@@ -21,17 +26,38 @@ export default function Houses() {
     const response = await http(url);
 
     if (response?.success) {
-      if (response?.message === 'Ops, no users have been registered yet..') {
-        setData([])
-      } else {
-        setData(response?.data)
-      }
+      console.log('Data', response)
+      setData(response?.data)
     }
     else {
       message.error("Something went wrong")
     }
 
   }
+
+
+  async function deleteHouse() {
+    const url = `admin/DELETE/delete-house/${isDeleting}`
+    const options = {
+      method: 'DELETE',
+      headers: {
+        'content-type': 'application/json'
+      },
+    }
+
+    const response =await http(url, options)
+    if (response?.success) {
+      console.log('Res', response)
+      message.success(response?.message)
+      getHouses()
+      setShowModal(false)
+    } else {
+      message.error('Something went wrong!')
+
+    }
+  }
+
+
 
   useEffect(() => {
     getHouses()
@@ -40,47 +66,70 @@ export default function Houses() {
 
   const columns = [
     {
+      title: 'Sno',
+      key: '_id',
+      render: (text, record, index) => {
+        return (
+          <span>{index + 1}</span>
+        )
+      }
+    },
+    {
       title: 'City',
-      dataIndex: 'city',
-      key: 'city',
+      dataIndex: 'City',
+      key: 'City',
     },
     {
       title: 'District',
-      dataIndex: 'district',
-      key: 'district',
+      dataIndex: 'District',
+      key: 'District',
     },
     {
       title: 'Area',
-      dataIndex: 'area',
-      key: 'area',
+      dataIndex: 'Area',
+      key: 'Area',
     },
     {
       title: 'Sector',
-      dataIndex: 'sector',
-      key: 'sector',
+      dataIndex: 'Sector',
+      key: 'Sector',
     },
     {
       title: 'House No',
-      dataIndex: 'houseNo',
-      key: 'houseNo',
+      dataIndex: 'House_no',
+      key: 'House_no',
     },
 
     {
-      title: 'Action',
+      title: 'Actions',
       key: 'action',
       dataIndex: 'status',
       render: (text, record) => (
         <Space size="middle">
-          <Tag color={'green'} >Done</Tag>
+          <Tag color={'green'} onClick={() => navigate('/update-house',{state:record})} >Edit</Tag>
+          <Tag color={'red'} onClick={() => {
+            setIsDeleing(record?._id)
+            setShowModal(true)
+          }} >Delete</Tag>
         </Space>
       ),
     },
   ]
 
   async function searchHouses() {
-    const url = `admin/GET/search/houses/${search}`;
+    const url = `admin/GET/search/houses`;
+    const options = {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify({
+        cnic: search
 
-    const response = await http(url);
+      })
+
+    }
+    const response = await http(url, options);
 
     if (response?.success) {
       setData(response?.data)
@@ -90,6 +139,7 @@ export default function Houses() {
     }
   }
 
+  console.log('Stat',status)
 
   return (
     <LayoutComponent>
@@ -102,6 +152,8 @@ export default function Houses() {
             <select value={status} className='select-status' onChange={(e) => setStatus(e.target.value)}>
               <option value="vaccinated">Vaccinated</option>
               <option value="rejected">Rejected</option>
+              <option value="empty">Empty</option>
+              <option value="children-free">Children Free</option>
             </select>
           </Col>
 
@@ -121,10 +173,7 @@ export default function Houses() {
         <TableComponent columns={columns} data={data} />
 
       </div>
-    </LayoutComponent >
+      <AreYouSureModal showModal={showModal} setShowModal={setShowModal} text={'Do you really want to delete this house?'} onOk={() => deleteHouse()} />
+    </LayoutComponent>
   )
 }
-
-// <Radio.Group name="radiogroup" defaultValue={1}>
-//   <Radio value={'cnic'}>With cnic</Radio>
-// </Radio.Group>
