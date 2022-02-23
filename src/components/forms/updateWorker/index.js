@@ -46,16 +46,17 @@ export default function UpdateWorkerForm() {
                 layout="vertical"
                 onFinish={onFinish}
                 initialValues={{
-                    firstName: state.firstName,
-                    lastName: state.lastName,
-                    email: state.email,
-                    phone: state.phone,
-                    cnic: state.cnic,
-                    gender: state.gender,
-                    address: state.address,
-                    city: state.city,
-                    district: state.district,
-                    postalCode: state.postalCode,
+                    firstName: state?.firstName,
+                    lastName: state?.lastName,
+                    email: state?.email,
+                    phone: state?.phone,
+                    cnic: state?.cnic,
+                    gender: state?.gender,
+                    address: state?.address,
+                    city: state?.city,
+                    district: state?.district,
+                    postalCode: state?.postalCode,
+                    password: state?.password,
 
 
                 }}
@@ -175,6 +176,17 @@ export default function UpdateWorkerForm() {
                             ]}
                         >
                             <Input placeholder="Enter postal code " />
+                        </Form.Item>
+                    </Col>
+                    <Col xs={24} lg={12} md={12} sm={12}>
+                        <Form.Item
+                            name="password"
+                            label="Password"
+                            rules={[
+                                { required: true, message: 'This field is required' }
+                            ]}
+                        >
+                            <Input.Password placeholder="Enter password" />
                         </Form.Item>
                     </Col>
 

@@ -155,6 +155,11 @@ export default function Workers() {
       key: 'address',
     },
     {
+      title: 'Password',
+      dataIndex: 'password',
+      key: 'password',
+    },
+    {
       title: 'Actions',
       key: 'action',
       dataIndex: 'status',
