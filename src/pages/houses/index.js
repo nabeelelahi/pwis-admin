@@ -14,7 +14,7 @@ export default function Houses() {
 
   const [search, setSearch] = useState()
   const [status, setStatus] = useState("vaccinated")
-  const [isDeleting, setIsDeleing] = useState("")
+  const [deleteId, setDeleteId] = useState("")
   const [showModal, setShowModal] = useState(false)
 
 
@@ -26,7 +26,6 @@ export default function Houses() {
     const response = await http(url);
 
     if (response?.success) {
-      console.log('Data', response)
       setData(response?.data)
     }
     else {
@@ -37,7 +36,7 @@ export default function Houses() {
 
 
   async function deleteHouse() {
-    const url = `admin/DELETE/delete-house/${isDeleting}`
+    const url = `admin/DELETE/delete-house/${deleteId}`
     const options = {
       method: 'DELETE',
       headers: {
@@ -45,9 +44,8 @@ export default function Houses() {
       },
     }
 
-    const response =await http(url, options)
+    const response = await http(url, options)
     if (response?.success) {
-      console.log('Res', response)
       message.success(response?.message)
       getHouses()
       setShowModal(false)
@@ -97,18 +95,17 @@ export default function Houses() {
     {
       title: 'House No',
       dataIndex: 'House_no',
-      key: 'House_no',
+      key: 'House_no'
     },
-
     {
       title: 'Actions',
       key: 'action',
       dataIndex: 'status',
       render: (text, record) => (
         <Space size="middle">
-          <Tag color={'green'} onClick={() => navigate('/update-house',{state:record})} >Edit</Tag>
+          <Tag color={'green'} onClick={() => navigate('/update-house', { state: record })} >Edit</Tag>
           <Tag color={'red'} onClick={() => {
-            setIsDeleing(record?._id)
+            setDeleteId(record?._id)
             setShowModal(true)
           }} >Delete</Tag>
         </Space>
@@ -139,8 +136,6 @@ export default function Houses() {
     }
   }
 
-  console.log('Stat',status)
-
   return (
     <LayoutComponent>
       <div className="container">
@@ -170,7 +165,14 @@ export default function Houses() {
 
           </Col>
         </Row>
-        <TableComponent columns={columns} data={data} />
+        <TableComponent columns={columns} data={data}
+          onRow={(record, rowIndex) => {
+            return {
+              onClick: e => { console.log('eee', record) },
+            };
+          }}
+
+        />
 
       </div>
       <AreYouSureModal showModal={showModal} setShowModal={setShowModal} text={'Do you really want to delete this house?'} onOk={() => deleteHouse()} />

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Table } from "antd";
 
-export default function TableComponent({ columns, data }) {
+export default function TableComponent({ columns, data, ...props }) {
   const [pagination, setPagination] = useState({
     current: 1,
     pageSize: 8,
@@ -18,6 +18,7 @@ export default function TableComponent({ columns, data }) {
       columns={columns}
       pagination={pagination}
       onChange={handlePagination}
+      {...props}
       dataSource={data}
       expandable={{
         expandedRowRender: (record) => (

@@ -1,39 +1,41 @@
 import React, { useState } from 'react';
 import { Form, Input, Select, Row, Col, Button, Typography, message, } from 'antd';
 import { http } from "@services"
-import { useLocation } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 
 const { Title } = Typography
 
 const { Option } = Select;
 
 export default function UpdateWorkerForm() {
+    const navigate=useNavigate()
     const [form] = Form.useForm();
 
     const [loading, setLoading] = useState(false)
+    const state = useLocation().state
 
-    const onFinish = (values) => {
+    async function onFinish(values){
         setLoading(true)
-        const url = "someroute"
+        const url = "admin/PUT/update-worker"
         const options = {
-            method: 'POST',
-            body: JSON.stringify(values),
+            method: 'PUT',
+            body: JSON.stringify({ ...values, _id: state?._id }),
             headers: {
                 'content-type': 'application/json'
             }
         }
 
-        const response = http(url, options)
+        const response =await http(url, options)
         if (response?.success) {
-            message.success('Congratulations! Account Has Been Successfully created!')
             setLoading(false)
+            message.success('Worker updated successfully')
+            navigate(-1)
         } else {
             setLoading(false)
             message.error('Something went wrong!')
 
         }
     }
-    const state = useLocation().state
 
     return (
         <div>

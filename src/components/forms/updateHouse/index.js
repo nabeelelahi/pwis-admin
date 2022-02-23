@@ -19,7 +19,6 @@ export default function UpdateHouseForm() {
             ...values,
             _id:state?._id
         }
-        console.log('pa',params)
         const options = {
             method: 'PUT',
             body: JSON.stringify(params),

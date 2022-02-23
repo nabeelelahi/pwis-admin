@@ -47,8 +47,6 @@ export default function UpdateChildrenForm() {
     }
 
 
-    console.log('ss', state)
-
     return (
         <div>
             <Title className='form-title'>Update Children</Title>

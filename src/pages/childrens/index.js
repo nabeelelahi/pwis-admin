@@ -17,6 +17,7 @@ export default function Childrens() {
 
   const [showModal, setShowModal] = useState(false)
   const [deletingId, setDeletingId] = useState('')
+  const [searchType, setSearchType] = useState('cnic')
 
   const [data, setData] = useState([])
 
@@ -26,7 +27,6 @@ export default function Childrens() {
     const response = await http(url);
 
     if (response?.success) {
-      console.log("Data", response?.data)
       setData(response?.data)
     }
     else {
@@ -147,16 +147,23 @@ export default function Childrens() {
   ]
 
   async function searchChildrens() {
-    const url = `admin/GET/search/children/${search}`;
+    const url = `admin/GET/search/children`;
+    let params = searchType ==='cnic' && {Parent_cnic:search} || searchType ==='familyNo' &&{Family_Number:search}
+    const options = {
+      method: 'POST',
+      'content-type': 'application/json',
+      body: JSON.stringify(params)
+    }
 
-    const response = await http(url);
+    const response = await http(url, options);
 
     if (response?.success) {
-      setData(response?.data)
+      setData(response?.results)
     }
     else {
       message.error("Something went wrong")
     }
+
   }
 
 
@@ -170,9 +177,9 @@ export default function Childrens() {
             value={search}
             onSearch={() => searchChildrens()}
           />
-          <Radio.Group name="radiogroup" defaultValue={'cnic'}>
+          <Radio.Group name="radiogroup" value={searchType} onChange={(e)=>setSearchType(e.target.value)}>
             <Radio value={'cnic'}>With cnic</Radio>
-            <Radio value={'family-no'}>With Family No</Radio>
+            <Radio value={'familyNo'}>With Family No</Radio>
           </Radio.Group>
         </div>
         <TableComponent columns={columns} data={data} />

@@ -12,7 +12,7 @@ export default function AddWorkerForm() {
 
     const [loading, setLoading] = useState(false)
 
-    const onFinish = (values) => {
+    async function onFinish(values){
         setLoading(true)
         const url = "admin/POST/register-worker"
         const options = {
@@ -23,9 +23,9 @@ export default function AddWorkerForm() {
             }
         }
 
-        const response = http(url, options)
+        const response =await http(url, options)
         if (response?.success) {
-            message.success('Congratulations! Worker has been registered successfully!')
+            message.success('Worker has been registered successfully')
             setLoading(false)
         } else {
             setLoading(false)
@@ -101,18 +101,6 @@ export default function AddWorkerForm() {
                             <Input placeholder='Enter cnic' maxLength={13} />
                         </Form.Item>
 
-                    </Col>
-                    <Col xs={24} lg={12} md={12} sm={12}>
-                        <Form.Item
-                            name="profile"
-                            label="Profile"
-                            rules={[
-                                { required: true, message: 'This field is required' }
-                            ]}
-
-                        >
-                            <input type="file" />
-                        </Form.Item>
                     </Col>
 
                     <Col xs={24} lg={12} md={12} sm={12}>

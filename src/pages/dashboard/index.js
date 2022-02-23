@@ -80,7 +80,7 @@ export default function Dashboard() {
                     </Col>
                 </Row>
             </div>
-            <AreYouSureModal showModal={showModal} setShowModal={setShowModal} text={'Do you really want to delete this worker?'} onOk={() => console.log('onOk')} />
+            <AreYouSureModal showModal={showModal} setShowModal={setShowModal} text={'Do you really want to delete this worker?'} />
         </LayoutComponent>
     )
 }

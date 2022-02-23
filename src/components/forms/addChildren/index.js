@@ -24,7 +24,7 @@ export default function AddChildrenForm() {
 
         const response = http(url, options)
         if (response?.success) {
-            message.success('Congratulations! Account Has Been Successfully created!')
+            message.success('Account has been created successfully')
             setLoading(false)
         } else {
             setLoading(false)

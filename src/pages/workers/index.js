@@ -14,6 +14,7 @@ export default function Workers() {
   const [showModal, setShowModal] = useState(false)
 
   const [search, setSearch] = useState('')
+  const [searchType, setSearchType] = useState('email')
 
   const navigate = useNavigate()
 
@@ -36,17 +37,17 @@ export default function Workers() {
 
   async function searchWorkers() {
     const url = `admin/GET/search/workers`;
-
+    let params = searchType ==='email' && {email:search} || searchType ==='name' &&{name:search}
     const options = {
       method: 'POST',
       'content-type': 'application/json',
-      body: JSON.stringify({ email: search })
+      body: JSON.stringify(params)
     }
 
     const response = await http(url, options);
 
     if (response?.success) {
-        setData(response?.results)
+      setData(response?.results)
     }
     else {
       message.error("Something went wrong")
@@ -85,9 +86,9 @@ export default function Workers() {
     {
       title: 'Sno',
       key: '_id',
-      render:(text,record, index)=>{
-        return(
-          <span>{index+1}</span>
+      render: (text, record, index) => {
+        return (
+          <span>{index + 1}</span>
         )
       }
     }
@@ -99,7 +100,7 @@ export default function Workers() {
       render: (text, record) => {
         return <Avatar
           size={50}
-          className={record.gender ==='male' ? 'green-bg' :'orange-bg'}
+          className={record.gender === 'male' ? 'green-bg' : 'orange-bg'}
         >{`${record?.firstName.substring(0, 1).toUpperCase()}${record?.lastName.substring(0, 1).toUpperCase()}`}
         </Avatar>
       }
@@ -170,8 +171,6 @@ export default function Workers() {
     },
   ]
 
-
-
   return (
     <LayoutComponent>
       <div className="container">
@@ -182,7 +181,7 @@ export default function Workers() {
             value={search}
             onSearch={() => searchWorkers()}
           />
-          <Radio.Group name="radiogroup" defaultValue={'email'}>
+          <Radio.Group name="radiogroup" onChange={(e) => setSearchType(e.target.value)} value={searchType}>
             <Radio value={'email'}>With Email</Radio>
             <Radio value={'name'}>With Name</Radio>
           </Radio.Group>
