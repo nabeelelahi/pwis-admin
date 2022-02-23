@@ -7,7 +7,6 @@ export default function PrivateRoute({ children }) {
 
     const data = CheckUser()
 
-
     return data !== null ? children : <Navigate to="/login" />
 
 

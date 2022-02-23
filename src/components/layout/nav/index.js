@@ -19,7 +19,7 @@ function Nav() {
     }
     useEffect(() => {
         setUser(CheckUser())
-    })
+    },[])
 
     return (
         <header className="header">

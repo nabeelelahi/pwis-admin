@@ -28,7 +28,7 @@ export default function AddChildrenForm() {
             setLoading(false)
         } else {
             setLoading(false)
-            message.error('Something went wrong!')
+            ('Something went wrong!')
 
         }
     }

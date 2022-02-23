@@ -15,14 +15,15 @@ export default function LoginForm() {
 
         const response = await http(url);
 
-        // if (response?.success) {
-            window.localStorage.setItem('uuid', 'admin')
+        if (response?.success) {
+            delete response?.info?.password
+            window.localStorage.setItem('uuid', JSON.stringify(response?.info))
             navigate('/')
 
-        // }
-        // else {
-        //     message.error("Either Email or Password is Incorrect")
-        // }
+        }
+        else {
+            message.error("Either Email or Password is Incorrect")
+        }
     };
 
 

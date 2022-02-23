@@ -22,7 +22,7 @@ export default function LayoutComponent({ children }) {
       <Nav />
       <Layout>
         {
-          user && <SideBar />
+          user?.email && <SideBar />
         }
         <Layout >
           <Content>

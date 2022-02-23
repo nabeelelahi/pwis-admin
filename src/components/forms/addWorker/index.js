@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Form, Input, Select, Row, Col, Button, Typography, message, } from 'antd';
 import { http } from "@services"
+import { useNavigate } from 'react-router';
 import './addWorkerStyles.css'
 
 const { Title } = Typography
@@ -8,6 +9,7 @@ const { Title } = Typography
 const { Option } = Select;
 
 export default function AddWorkerForm() {
+    const navigate=useNavigate()
     const [form] = Form.useForm();
 
     const [loading, setLoading] = useState(false)
@@ -25,8 +27,9 @@ export default function AddWorkerForm() {
 
         const response =await http(url, options)
         if (response?.success) {
-            message.success('Worker has been registered successfully')
             setLoading(false)
+            message.success('Worker has been registered successfully')
+            navigate(-1)
         } else {
             setLoading(false)
             message.error(response?.message)
@@ -160,6 +163,17 @@ export default function AddWorkerForm() {
                             ]}
                         >
                             <Input placeholder="Enter postal code " />
+                        </Form.Item>
+                    </Col>
+                    <Col xs={24} lg={12} md={12} sm={12}>
+                        <Form.Item
+                            name="password"
+                            label="Password"
+                            rules={[
+                                { required: true, message: 'This field is required' }
+                            ]}
+                        >
+                            <Input.Password placeholder="Enter password" />
                         </Form.Item>
                     </Col>
 

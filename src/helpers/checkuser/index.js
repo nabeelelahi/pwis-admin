@@ -1,8 +1,7 @@
-import { startUp } from "@services"
 
    export default function CheckUser() {
         try {
-            return startUp(localStorage.getItem('uuid'))
+            return JSON.parse(localStorage.getItem('uuid'))
         } catch (error) {
         }
     }
