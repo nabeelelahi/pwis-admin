@@ -15,9 +15,9 @@ export default function UpdateHouseForm() {
     async function onFinish(values) {
         setLoading(true)
         const url = "admin/PUT/update-house"
-        let params={
+        let params = {
             ...values,
-            _id:state?._id
+            _id: state?._id
         }
         const options = {
             method: 'PUT',
@@ -48,18 +48,22 @@ export default function UpdateHouseForm() {
                 layout="vertical"
                 onFinish={onFinish}
                 initialValues={{
-                    City: state?.City,
-                    District: state?.District,
-                    Area: state?.Area,
-                    Sector: state?.Sector,
-                    House_no: state?.House_no,
+                    city: state?.city,
+                    district: state?.district,
+                    area: state?.area,
+                    sector: state?.sector,
+                    house_no: state?.house_no,
+                    parent_cnic: state?.parent_cnic,
+                    no_of_children: state?.no_of_children,
+                    worker_email: state?.worker_email,
+                    Vac_Status: state?.Vac_Status
                 }}
                 scrollToFirstError
             >
                 <Row gutter={[{ xl: 50, lg: 30, md: 20, sm: 15, xs: 0 }, 0]}>
                     <Col xs={24} lg={12} md={12} sm={12}>
                         <Form.Item
-                            name="City"
+                            name="city"
                             label="City"
                             rules={[
                                 { required: true, message: 'This field is required' }
@@ -71,7 +75,7 @@ export default function UpdateHouseForm() {
                     </Col>
                     <Col xs={24} lg={12} md={12} sm={12}>
                         <Form.Item
-                            name="District"
+                            name="district"
                             label="District"
                             rules={[
                                 { required: true, message: 'This field is required' }
@@ -82,7 +86,7 @@ export default function UpdateHouseForm() {
                     </Col>
                     <Col xs={24} lg={12} md={12} sm={12}>
                         <Form.Item
-                            name="Area"
+                            name="area"
                             label="Area"
                             rules={[
                                 { required: true, message: 'This field is required' }
@@ -93,7 +97,7 @@ export default function UpdateHouseForm() {
                     </Col>
                     <Col xs={24} lg={12} md={12} sm={12}>
                         <Form.Item
-                            name="Sector"
+                            name="sector"
                             label="Sector"
                             rules={[
                                 { required: true, message: 'This field is required' }
@@ -104,13 +108,64 @@ export default function UpdateHouseForm() {
                     </Col>
                     <Col xs={24} lg={12} md={12} sm={12}>
                         <Form.Item
-                            name="House_no"
+                            name="house_no"
                             label="House No"
                             rules={[
                                 { required: true, message: 'This field is required' }
                             ]}
                         >
                             <Input placeholder='Enter house no' />
+                        </Form.Item>
+                    </Col>
+                    <Col xs={24} lg={12} md={12} sm={12}>
+                        <Form.Item
+                            name="parent_cnic"
+                            label="Parent Cnic"
+                            rules={[
+                                { required: true, message: 'This field is required' }
+                            ]}
+                        >
+                            <Input placeholder='Enter parent cnic' />
+                        </Form.Item>
+                    </Col>
+                    <Col xs={24} lg={12} md={12} sm={12}>
+                        <Form.Item
+                            name="no_of_children"
+                            label="No Of Childrens"
+                            rules={[
+                                { required: true, message: 'This field is required' }
+                            ]}
+                        >
+                            <Input placeholder='Enter no of childrens' />
+                        </Form.Item>
+                    </Col>
+                    <Col xs={24} lg={12} md={12} sm={12}>
+                        <Form.Item
+                            name="worker_email"
+                            label="Worker Email"
+                            rules={[
+                                { required: true, message: 'This field is required' }
+                            ]}
+                        >
+                            <Input placeholder='Enter worker email' />
+                        </Form.Item>
+                    </Col>
+
+                    <Col xs={24} lg={12} md={12} sm={12}>
+                        <Form.Item
+                            name="Vac_Status"
+                            label="Vaccination Status"
+                            rules={[
+                                { required: true, message: 'This field is required' }
+                            ]}
+                        >
+                            <Select placeholder="Enter vaccination status" >
+                                <Option value="Vaccinated">Vaccinated</Option>
+                                <Option value="Rejected">Rejected</Option>
+                                <Option value="In Process">In Process</Option>
+                                <Option value="Empty">Empty</Option>
+                                <Option value="Children Free">Children Free</Option>
+                            </Select>
                         </Form.Item>
                     </Col>
 

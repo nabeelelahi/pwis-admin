@@ -13,20 +13,22 @@ export default function Houses() {
   const navigate = useNavigate()
 
   const [search, setSearch] = useState()
-  const [status, setStatus] = useState("vaccinated")
+  const [status, setStatus] = useState("Vaccinated")
   const [deleteId, setDeleteId] = useState("")
   const [showModal, setShowModal] = useState(false)
 
 
   const [data, setData] = useState([])
+  const [filteredData, setFilteredData] = useState([])
 
   async function getHouses() {
-    const url = `admin/GET/houses/${status}`;
+    const url = `admin/GET/houses`;
 
     const response = await http(url);
 
     if (response?.success) {
       setData(response?.data)
+      statusRecords(response?.data,status)
     }
     else {
       message.error("Something went wrong")
@@ -60,7 +62,12 @@ export default function Houses() {
   useEffect(() => {
     getHouses()
 
-  }, [status, search === ''])
+  }, [search === ''])
+
+  function statusRecords(d,e) {
+    setFilteredData(d?.filter(item => item?.Vac_Status === e))
+
+  }
 
   const columns = [
     {
@@ -74,28 +81,43 @@ export default function Houses() {
     },
     {
       title: 'City',
-      dataIndex: 'City',
-      key: 'City',
+      dataIndex: 'city',
+      key: 'city',
     },
     {
       title: 'District',
-      dataIndex: 'District',
-      key: 'District',
+      dataIndex: 'district',
+      key: 'district',
     },
     {
       title: 'Area',
-      dataIndex: 'Area',
-      key: 'Area',
+      dataIndex: 'area',
+      key: 'area',
     },
     {
       title: 'Sector',
-      dataIndex: 'Sector',
-      key: 'Sector',
+      dataIndex: 'sector',
+      key: 'sector',
     },
     {
       title: 'House No',
-      dataIndex: 'House_no',
-      key: 'House_no'
+      dataIndex: 'house_no',
+      key: 'house_no'
+    },
+    {
+      title: 'No Of Childrens',
+      dataIndex: 'no_of_children',
+      key: 'no_of_children'
+    },
+    {
+      title: 'Parent Cnic',
+      dataIndex: 'parent_cnic',
+      key: 'parent'
+    },
+    {
+      title: 'Worker Email',
+      dataIndex: 'worker_email',
+      key: 'worker_email'
     },
     {
       title: 'Actions',
@@ -129,6 +151,7 @@ export default function Houses() {
     const response = await http(url, options);
 
     if (response?.success) {
+      console.log('Res', response)
       setData(response?.data)
     }
     else {
@@ -144,11 +167,16 @@ export default function Houses() {
 
         <Row className='mb-3' >
           <Col span={8}>
-            <select value={status} className='select-status' onChange={(e) => setStatus(e.target.value)}>
-              <option value="vaccinated">Vaccinated</option>
-              <option value="rejected">Rejected</option>
-              <option value="empty">Empty</option>
-              <option value="children-free">Children Free</option>
+            <select value={status} className='select-status' onChange={(e) => {
+              setStatus(e.target.value)
+              statusRecords(data,e.target.value)
+
+            }}>
+              <option value="Vaccinated">Vaccinated</option>
+              <option value="Rejected">Rejected</option>
+              <option value="In Process">In Process</option>
+              <option value="Empty">Empty</option>
+              <option value="Children Free">Children Free</option>
             </select>
           </Col>
 
@@ -165,7 +193,7 @@ export default function Houses() {
 
           </Col>
         </Row>
-        <TableComponent columns={columns} data={data}
+        <TableComponent columns={columns} data={filteredData}
           onRow={(record, rowIndex) => {
             return {
               onClick: e => { console.log('eee', record) },

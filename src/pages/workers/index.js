@@ -13,7 +13,7 @@ export default function Workers() {
 
   const [showModal, setShowModal] = useState(false)
 
-  const [search, setSearch] = useState('')
+  const [search, setSearch] = useState('khanfarooqali1@gmail.com')
   const [searchType, setSearchType] = useState('email')
 
   const navigate = useNavigate()
@@ -36,8 +36,9 @@ export default function Workers() {
   }
 
   async function searchWorkers() {
+    console.log('search',search)
     const url = `admin/GET/search/workers`;
-    let params = searchType ==='email' && {email:search} || searchType ==='name' &&{name:search}
+    let params = searchType ==='email' && {email:search.trim()} || searchType ==='name' &&{name:search.trim()}
     const options = {
       method: 'POST',
       'content-type': 'application/json',
@@ -47,7 +48,8 @@ export default function Workers() {
     const response = await http(url, options);
 
     if (response?.success) {
-      setData(response?.results)
+      console.log('res',response)
+      // setData(response?.results)
     }
     else {
       message.error("Something went wrong")
