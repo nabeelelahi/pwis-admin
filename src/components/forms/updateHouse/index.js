@@ -5,6 +5,8 @@ import { useLocation, useNavigate } from 'react-router';
 
 const { Title } = Typography
 
+const { Option } = Select
+
 export default function UpdateHouseForm() {
     const [form] = Form.useForm();
     const navigate = useNavigate()

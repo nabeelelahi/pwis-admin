@@ -12,10 +12,11 @@ const { Search } = Input
 export default function Houses() {
   const navigate = useNavigate()
 
-  const [search, setSearch] = useState()
+  const [search, setSearch] = useState("")
   const [status, setStatus] = useState("Vaccinated")
   const [deleteId, setDeleteId] = useState("")
   const [showModal, setShowModal] = useState(false)
+  const [searchResults, setSearchResults] = useState([])
 
 
   const [data, setData] = useState([])
@@ -28,7 +29,7 @@ export default function Houses() {
 
     if (response?.success) {
       setData(response?.data)
-      statusRecords(response?.data,status)
+      statusRecords(response?.data, status)
     }
     else {
       message.error("Something went wrong")
@@ -62,9 +63,9 @@ export default function Houses() {
   useEffect(() => {
     getHouses()
 
-  }, [search === ''])
+  }, [])
 
-  function statusRecords(d,e) {
+  function statusRecords(d, e) {
     setFilteredData(d?.filter(item => item?.Vac_Status === e))
 
   }
@@ -120,9 +121,21 @@ export default function Houses() {
       key: 'worker_email'
     },
     {
+      title: 'Location',
+      render: (text, record) => {
+        console.log('rec', record)
+        return (
+          <a onClick={() => {
+            navigate(`/houses/${record?._id}`, { state: record })
+          }}>View</a>
+        )
+      }
+    },
+    {
       title: 'Actions',
       key: 'action',
       dataIndex: 'status',
+      fixed: 'right',
       render: (text, record) => (
         <Space size="middle">
           <Tag color={'green'} onClick={() => navigate('/update-house', { state: record })} >Edit</Tag>
@@ -135,28 +148,8 @@ export default function Houses() {
     },
   ]
 
-  async function searchHouses() {
-    const url = `admin/GET/search/houses`;
-    const options = {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json'
-      },
-      body: JSON.stringify({
-        cnic: search
-
-      })
-
-    }
-    const response = await http(url, options);
-
-    if (response?.success) {
-      console.log('Res', response)
-      setData(response?.data)
-    }
-    else {
-      message.error("Something went wrong")
-    }
+  function searchHouses() {
+   setSearchResults(filteredData?.filter(item => item?.parent_cnic === search))
   }
 
   return (
@@ -169,7 +162,7 @@ export default function Houses() {
           <Col span={8}>
             <select value={status} className='select-status' onChange={(e) => {
               setStatus(e.target.value)
-              statusRecords(data,e.target.value)
+              statusRecords(data, e.target.value)
 
             }}>
               <option value="Vaccinated">Vaccinated</option>
@@ -193,13 +186,7 @@ export default function Houses() {
 
           </Col>
         </Row>
-        <TableComponent columns={columns} data={filteredData}
-          onRow={(record, rowIndex) => {
-            return {
-              onClick: e => { console.log('eee', record) },
-            };
-          }}
-
+        <TableComponent columns={columns} data={search === "" ? filteredData : searchResults}
         />
 
       </div>

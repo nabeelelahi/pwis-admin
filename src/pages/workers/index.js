@@ -13,12 +13,13 @@ export default function Workers() {
 
   const [showModal, setShowModal] = useState(false)
 
-  const [search, setSearch] = useState('khanfarooqali1@gmail.com')
+  const [search, setSearch] = useState('')
   const [searchType, setSearchType] = useState('email')
 
   const navigate = useNavigate()
 
   const [data, setData] = useState([])
+  const [searchResults, setSearchResults] = useState([])
   const [deletingId, setDeletingId] = useState('')
 
 
@@ -36,24 +37,16 @@ export default function Workers() {
   }
 
   async function searchWorkers() {
-    console.log('search',search)
-    const url = `admin/GET/search/workers`;
-    let params = searchType ==='email' && {email:search.trim()} || searchType ==='name' &&{name:search.trim()}
-    const options = {
-      method: 'POST',
-      'content-type': 'application/json',
-      body: JSON.stringify(params)
-    }
 
-    const response = await http(url, options);
+    setSearchResults(data?.filter((item) => {
+      if (searchType === 'name' && item?.firstName + item?.lastName === search) {
+        return item
+      }
+      if (searchType === 'email' && item?.email === search) {
+        return item
+      }
+    }))
 
-    if (response?.success) {
-      console.log('res',response)
-      // setData(response?.results)
-    }
-    else {
-      message.error("Something went wrong")
-    }
   }
 
   async function deleteWorker() {
@@ -82,7 +75,7 @@ export default function Workers() {
 
   useEffect(() => {
     getWorkers()
-  }, [search === ''])
+  }, [])
 
   const columns = [
     {
@@ -193,7 +186,7 @@ export default function Workers() {
             <Radio value={'name'}>With Name</Radio>
           </Radio.Group>
         </div>
-        <TableComponent columns={columns} data={data} />
+        <TableComponent columns={columns} data={search === "" ? data : searchResults} />
       </div>
       <AreYouSureModal showModal={showModal} setShowModal={setShowModal} text={'Do you really want to delete this worker?'} onOk={() => deleteWorker()} />
     </LayoutComponent>

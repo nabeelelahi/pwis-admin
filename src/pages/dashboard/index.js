@@ -39,8 +39,8 @@ export default function Dashboard() {
         const url = `admin/GET/children`;
         const response = await http(url);
         if (response?.success) {
-            setChildrens(response?.data)
-        }else{
+            setChildrens(response?.data?.filter(item => item?.Vaccination_status === 'Vaccinated'))
+        } else {
             message.error('Someting went wrong')
         }
     }

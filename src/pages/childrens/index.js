@@ -18,6 +18,8 @@ export default function Childrens() {
   const [showModal, setShowModal] = useState(false)
   const [deletingId, setDeletingId] = useState('')
   const [searchType, setSearchType] = useState('cnic')
+  const [searchResults, setSearchResults] = useState([])
+
 
   const [data, setData] = useState([])
 
@@ -58,7 +60,7 @@ export default function Childrens() {
 
   useEffect(() => {
     getChildrens()
-  }, [search === ''])
+  }, [])
 
   const columns = [
     {
@@ -125,7 +127,7 @@ export default function Childrens() {
       title: 'Next Vaccination Date',
       dataIndex: 'Next_Vaccination_date',
       key: 'Next_Vaccination_date',
-      render:(text)=>{
+      render: (text) => {
         return moment(text).format("DD MMM YYYY")
       }
     },
@@ -147,22 +149,15 @@ export default function Childrens() {
   ]
 
   async function searchChildrens() {
-    const url = `admin/GET/search/children`;
-    let params = searchType ==='cnic' && {Parent_cnic:search} || searchType ==='familyNo' &&{Family_Number:search}
-    const options = {
-      method: 'POST',
-      'content-type': 'application/json',
-      body: JSON.stringify(params)
-    }
 
-    const response = await http(url, options);
-
-    if (response?.success) {
-      setData(response?.results)
-    }
-    else {
-      message.error("Something went wrong")
-    }
+    setSearchResults(data?.filter((item) => {
+      if (searchType === 'cnic' && item?.Parent_cnic === search) {
+        return item
+      }
+      if (searchType === 'familyNo' && item?.Family_Number === search) {
+        return item
+      }
+    }))
 
   }
 
@@ -177,12 +172,12 @@ export default function Childrens() {
             value={search}
             onSearch={() => searchChildrens()}
           />
-          <Radio.Group name="radiogroup" value={searchType} onChange={(e)=>setSearchType(e.target.value)}>
+          <Radio.Group name="radiogroup" value={searchType} onChange={(e) => setSearchType(e.target.value)}>
             <Radio value={'cnic'}>With cnic</Radio>
             <Radio value={'familyNo'}>With Family No</Radio>
           </Radio.Group>
         </div>
-        <TableComponent columns={columns} data={data} />
+        <TableComponent columns={columns} data={search === "" ? data : searchResults} />
       </div>
       <AreYouSureModal showModal={showModal} setShowModal={setShowModal} text={'Do you really want to delete this children?'} onOk={() => deleteChildren()} />
     </LayoutComponent>

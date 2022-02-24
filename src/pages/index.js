@@ -4,6 +4,7 @@ import Houses from './houses'
 import VaccineDrive from './vaccineDrive'
 import {UpdateWorker, UpdateChildren,UpdateHouse} from "./update"
 import Dashboard from "./dashboard"
+import ViewHouseLocation from "./viewHouseLoc"
 
 import {
     AddWorker,
@@ -15,6 +16,7 @@ export {
     Childrens,
     Houses,
     VaccineDrive,
+    ViewHouseLocation,
 
     // ADD FORMS
     AddWorker,

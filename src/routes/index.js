@@ -10,7 +10,8 @@ import {
     UpdateWorker,
     UpdateChildren,
     Dashboard,
-    UpdateHouse
+    UpdateHouse,
+    ViewHouseLocation
 
 } from '@pages'
 import Login from "../pages/login";
@@ -52,6 +53,9 @@ export default function App() {
                 <Route
                     path='/update-house'
                     element={<PrivateRoute><UpdateHouse /></PrivateRoute>} />
+                <Route
+                    path='/houses/:id'
+                    element={<PrivateRoute><ViewHouseLocation /></PrivateRoute>} />
 
                 <Route path='/login' element={<Login />} />
 
