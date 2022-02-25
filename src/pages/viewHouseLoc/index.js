@@ -10,21 +10,26 @@ import { useLocation } from "react-router";
 export default function ViewHouseLocation() {
     const [map, setMap] = useState(null)
     const mapRef = useRef(null)
+    const location = useLocation()?.state
     const center = [24.8546842, 67.0207055]
-    const location=useLocation()?.state
 
-    console.log('loc',location)
+
+    console.log('loc', location)
     // For Worker Location
-    const [myCoords, setLoc] = useState([24.854600, 67.0207055])
-    // const [myCoords, setLoc] = useState([location?.latitude,location?.longitude])
+    const [myCoords, setLoc] = useState([location?.latitude, location?.longitude])
+   
 
-
-    useEffect(() => {
-        setLoc([location?.latitude,location?.longitude])
+    function renderData() {
+        setLoc([location?.latitude, location?.longitude])
         map?.flyTo(myCoords, 11)
+    }
+    useEffect(() => {
+        renderData()
+        console.log('run')
+        // return (() => renderData())
+    }, [map]);
+    // setRender(true)
 
-
-    }, [myCoords]);
 
 
     let pointer = Leaflet.icon({
@@ -44,7 +49,8 @@ export default function ViewHouseLocation() {
                 <MapContainer
                     center={center}
                     ref={mapRef}
-                    zoom={20}
+                    zoom={22}
+                    minZoom={15}
                     whenCreated={setMap}
                     className="map"
                     scrollWheelZoom={false}
