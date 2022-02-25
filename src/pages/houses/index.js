@@ -16,6 +16,7 @@ export default function Houses() {
   const [status, setStatus] = useState("Vaccinated")
   const [deleteId, setDeleteId] = useState("")
   const [showModal, setShowModal] = useState(false)
+  const [searchType, setSearchType] = useState('cnic')
   const [searchResults, setSearchResults] = useState([])
 
 
@@ -123,7 +124,6 @@ export default function Houses() {
     {
       title: 'Location',
       render: (text, record) => {
-        console.log('rec', record)
         return (
           <a onClick={() => {
             navigate(`/houses/${record?._id}`, { state: record })
@@ -149,7 +149,15 @@ export default function Houses() {
   ]
 
   function searchHouses() {
-   setSearchResults(filteredData?.filter(item => item?.parent_cnic === search))
+    
+   setSearchResults(filteredData?.filter((item) => {
+    if (searchType === 'cnic' && item?.parent_cnic === search) {
+      return item
+    }
+    if (searchType === 'house-no' && item?.house_no === search) {
+      return item
+    }
+  }))
   }
 
   return (
@@ -158,7 +166,7 @@ export default function Houses() {
 
         <Title className='heading'>Houses</Title>
 
-        <Row className='mb-3' >
+        <Row className='mb-3'>
           <Col span={8}>
             <select value={status} className='select-status' onChange={(e) => {
               setStatus(e.target.value)
@@ -173,17 +181,25 @@ export default function Houses() {
             </select>
           </Col>
 
-          <Col span={16}>
-            <div className='houses-search-box-container'>
-              <Search placeholder="Search houses with cnic" enterButton="Search" size="large" loading={false} className='search-input'
-                onChange={(e) => setSearch(e.target.value)}
-                value={search}
-                onSearch={() => searchHouses()}
-              />
+          <Col span={8}>
 
-            </div>
-
-
+            <div className='search-box-container' >
+          <Search placeholder="Search workers" enterButton="Search" size="large" loading={false} className='search-input'
+            onChange={(e) => {
+              setSearchResults([])
+              setSearch(e.target.value)}}
+            value={search}
+            onSearch={() => searchHouses()}
+          />
+                    </div>
+          </Col>
+          <Col span={8} >
+          <div className="h-100 d-flex align-items-center" >
+          <Radio.Group   name="radiogroup" onChange={(e) => setSearchType(e.target.value)} value={searchType}>
+            <Radio value={'cnic'}>With Cnic</Radio>
+            <Radio value={'house-no'}>With House No</Radio>
+          </Radio.Group>
+          </div>
           </Col>
         </Row>
         <TableComponent columns={columns} data={search === "" ? filteredData : searchResults}
