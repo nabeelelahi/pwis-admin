@@ -4,10 +4,13 @@ import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet"
 import { FullscreenControl } from "react-leaflet-fullscreen";
 import "react-leaflet-fullscreen/dist/styles.css";
 import Leaflet from "leaflet"
+import { BASE_URL } from "@constants"
+import { io } from "socket.io-client"
 import 'leaflet/dist/leaflet.css'
 import "./vaccineDriveStyles.css"
 
 export default function VaccineDrive() {
+    let socket=useRef(null)
     const [map, setMap] = useState(null)
     const mapRef = useRef(null)
     const center = [24.8546842, 67.0207055]
@@ -20,6 +23,22 @@ export default function VaccineDrive() {
             setLoc([pos.coords.latitude, pos.coords.longitude])
         })
     }
+
+    useEffect(() => {
+        socket.current=io("https://pacific-bastion-99540.herokuapp.com"
+        // ,{
+            // transports:['websocket']
+        // }
+        )
+        console.log('Socket',socket.current)
+        // socket.current.on('connect', () => {
+        //     console.log('soc',socket)
+
+        //     socket.current.on('new message', (data) => {
+        //         console.log('data', data)
+        //     })
+        // })
+    }, [])
 
     useLayoutEffect(() => {
         location()
