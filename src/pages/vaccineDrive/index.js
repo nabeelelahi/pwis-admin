@@ -30,13 +30,12 @@ export default function VaccineDrive() {
             // transports:['websocket']
         // }
         )
-        console.log('Socket',socket.current)
-        // socket.current.on('connect', () => {
-        //     console.log('soc',socket)
+        // socket.current.on('connection', () => {
+            console.log('soc',socket)
 
-        //     socket.current.on('new message', (data) => {
-        //         console.log('data', data)
-        //     })
+            // socket.current.on('new message', (data) => {
+            //     console.log('data', data)
+            // })
         // })
     }, [])
 
