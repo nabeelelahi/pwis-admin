@@ -10,7 +10,7 @@ import 'leaflet/dist/leaflet.css'
 import "./vaccineDriveStyles.css"
 
 export default function VaccineDrive() {
-    let socket=useRef(null)
+    let socket = useRef(null)
     const [map, setMap] = useState(null)
     const mapRef = useRef(null)
     const center = [24.8546842, 67.0207055]
@@ -25,18 +25,16 @@ export default function VaccineDrive() {
     }
 
     useEffect(() => {
-        socket.current=io("https://pacific-bastion-99540.herokuapp.com"
-        // ,{
-            // transports:['websocket']
-        // }
-        )
-        // socket.current.on('connection', () => {
-            console.log('soc',socket)
+        socket.current = io("https://pacific-bastion-99540.herokuapp.com")
+        console.log(socket.current)
+        socket.current.on('connection', () => {
+            console.log('connected')
+        })
+        // socket.current.emit("sendLocation", {data:"kuch bhi jani"});
 
-            // socket.current.on('new message', (data) => {
-            //     console.log('data', data)
-            // })
-        // })
+        socket.current.on('getLocation', (data) => {
+            console.log('data', data)
+        })
     }, [])
 
     useLayoutEffect(() => {
