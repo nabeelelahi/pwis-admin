@@ -49,18 +49,16 @@ export default function VaccineDrive() {
 
     useEffect(() => {
         getRejectedHouses()
-        socket.current = io("https://pacific-bastion-99540.herokuapp.com"
-            , {
-                transports: ['websocket']
-            }
-        )
-        // socket.current.on('connection', () => {
-        console.log('soc', socket.current)
+        socket.current = io("https://pacific-bastion-99540.herokuapp.com")
+        console.log(socket.current)
+        socket.current.on('connection', () => {
+            console.log('connected')
+        })
+        // socket.current.emit("sendLocation", {data:"kuch bhi jani"});
 
-        // socket.current.on('new message', (data) => {
-        //     console.log('data', data)
-        // })
-        // })
+        socket.current.on('getLocation', (data) => {
+            console.log('data', data)
+        })
     }, [])
 
     useLayoutEffect(() => {
