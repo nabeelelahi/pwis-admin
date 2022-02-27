@@ -19,10 +19,10 @@ export default function Dashboard() {
     const navigate = useNavigate()
 
     async function getHouses() {
-        const url = `admin/GET/houses/vaccinated`;
+        const url = `admin/GET/houses`;
         const response = await http(url);
         if (response?.success) {
-            setHouses(response?.data)
+            setHouses(response?.data?.filter(item => item?.Vac_Status ==='Vaccinated'))
         }
     }
 

@@ -5,15 +5,35 @@ import { FullscreenControl } from "react-leaflet-fullscreen";
 import "react-leaflet-fullscreen/dist/styles.css";
 import Leaflet from "leaflet"
 import { BASE_URL } from "@constants"
+import { http } from "@services"
 import { io } from "socket.io-client"
 import 'leaflet/dist/leaflet.css'
 import "./vaccineDriveStyles.css"
 
 export default function VaccineDrive() {
-    let socket=useRef(null)
+    let socket = useRef(null)
     const [map, setMap] = useState(null)
     const mapRef = useRef(null)
     const center = [24.8546842, 67.0207055]
+    const [rejectedHouses, setRejectdHouses] = useState([])
+    const [points, setPoints] = useState([])
+    // Get Rejected Houses
+    async function getRejectedHouses() {
+        let rejHouses = []
+        const url = `admin/GET/houses`;
+        const response = await http(url);
+        if (response?.success) {
+            setRejectdHouses(response?.data?.filter(item => item?.Vac_Status === 'Rejected'))
+            rejectedHouses?.map((item) => {
+                rejHouses.push({ latitude: item?.latitude, longitude: item?.longitude })
+            })
+            setPoints([...rejectedHouses])
+
+
+        }
+    }
+
+
 
     // For My Location
     const [myCoords, setLoc] = useState([24.854600, 67.0207055])
@@ -25,19 +45,19 @@ export default function VaccineDrive() {
     }
 
     useEffect(() => {
-        socket.current=io("https://pacific-bastion-99540.herokuapp.com"
-        // ,{
-            // transports:['websocket']
-        // }
+        getRejectedHouses()
+        socket.current = io("https://pacific-bastion-99540.herokuapp.com"
+            , {
+                transports: ['websocket']
+            }
         )
-        console.log('Socket',socket.current)
-        // socket.current.on('connect', () => {
-        //     console.log('soc',socket)
+        socket.current.on('connection', () => {
+            console.log('Socket', socket.current?.connected)
 
-        //     socket.current.on('new message', (data) => {
-        //         console.log('data', data)
-        //     })
-        // })
+            socket.current.on('getWorker', (data) => {
+                console.log('data', data)
+            })
+        })
     }, [])
 
     useLayoutEffect(() => {
@@ -62,12 +82,12 @@ export default function VaccineDrive() {
 
 
 
-    const points = [
-        [25.07316070640961, 67.10449218750001],
-        [25.021217616954733, 67.13504791259767],
-        [25.021062065689673, 67.12964057922365],
-        [25.015462088877463, 25.015462088877463],
-    ]
+    // const points = [
+    //     [25.07316070640961, 67.10449218750001],
+    //     [25.021217616954733, 67.13504791259767],
+    //     [25.021062065689673, 67.12964057922365],
+    //     [25.015462088877463, 25.015462088877463],
+    // ]
 
     return (
         <LayoutComponent>
@@ -86,13 +106,6 @@ export default function VaccineDrive() {
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
 
-
-                    <Marker position={myCoords} icon={pointer}>
-                        <Popup>
-                            <div>My Location</div>
-
-                        </Popup>
-                    </Marker>
 
                     {
                         points?.map(item => {
