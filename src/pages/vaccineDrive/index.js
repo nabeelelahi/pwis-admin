@@ -14,25 +14,28 @@ export default function VaccineDrive() {
     let socket = useRef(null)
     const [map, setMap] = useState(null)
     const mapRef = useRef(null)
+    const [rejectedHouses, setRejectedHouses] = useState([])
     const center = [24.8546842, 67.0207055]
-    const [rejectedHouses, setRejectdHouses] = useState([])
-    const [points, setPoints] = useState([])
     // Get Rejected Houses
     async function getRejectedHouses() {
         let rejHouses = []
         const url = `admin/GET/houses`;
         const response = await http(url);
         if (response?.success) {
-            setRejectdHouses(response?.data?.filter(item => item?.Vac_Status === 'Rejected'))
-            rejectedHouses?.map((item) => {
-                rejHouses.push({ latitude: item?.latitude, longitude: item?.longitude })
+            let houses = response?.data?.filter(item => item?.Vac_Status === 'Rejected')
+            houses?.map((item) => {
+            
+                rejHouses.push({houseNo:item?.house_no,position:[item?.latitude, item?.longitude]})
             })
-            setPoints([...rejectedHouses])
+            setRejectedHouses([...rejHouses])
+            console.log('Re', rejHouses)
+
 
 
         }
     }
 
+    console.log('points', points)
 
 
     // For My Location
@@ -51,13 +54,13 @@ export default function VaccineDrive() {
                 transports: ['websocket']
             }
         )
-        socket.current.on('connection', () => {
-            console.log('Socket', socket.current?.connected)
+        // socket.current.on('connection', () => {
+        console.log('soc', socket.current)
 
-            socket.current.on('getWorker', (data) => {
-                console.log('data', data)
-            })
-        })
+        // socket.current.on('new message', (data) => {
+        //     console.log('data', data)
+        // })
+        // })
     }, [])
 
     useLayoutEffect(() => {
@@ -79,15 +82,23 @@ export default function VaccineDrive() {
         shadowAnchor: [4, 62],
         popupAnchor: [4, -80],
     })
+    let housePointer = Leaflet.icon({
+        iconUrl: "https://www.pinpng.com/pngs/m/53-531960_home-icon-red-png-transparent-png.png",
+        iconSize: [50, 50],
+        shadowSize: [50, 64],
+        iconAnchor: [22, 94],
+        shadowAnchor: [4, 62],
+        popupAnchor: [4, -80],
+    })
 
 
 
-    // const points = [
-    //     [25.07316070640961, 67.10449218750001],
-    //     [25.021217616954733, 67.13504791259767],
-    //     [25.021062065689673, 67.12964057922365],
-    //     [25.015462088877463, 25.015462088877463],
-    // ]
+    const points = [
+        [25.07316070640961, 67.10449218750001],
+        [25.021217616954733, 67.13504791259767],
+        [25.021062065689673, 67.12964057922365],
+        [25.015462088877463, 25.015462088877463],
+    ]
 
     return (
         <LayoutComponent>
@@ -106,13 +117,27 @@ export default function VaccineDrive() {
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
 
-
                     {
                         points?.map(item => {
                             return (
                                 <Marker position={item} icon={pointer}>
                                     <Popup>
                                         <div>Worker Information will be here</div>
+
+                                    </Popup>
+                                </Marker>
+                            )
+                        })
+                    }
+
+                    {/* Rejected Houses */}
+
+                    {
+                        rejectedHouses?.map((item)=>{
+                            return (
+                                <Marker position={item?.position} icon={housePointer}>
+                                    <Popup>
+                                        <div>House No: {item?.houseNo}</div>
 
                                     </Popup>
                                 </Marker>
