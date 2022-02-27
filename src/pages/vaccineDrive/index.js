@@ -7,6 +7,7 @@ import Leaflet from "leaflet"
 import { BASE_URL } from "@constants"
 import { http } from "@services"
 import { io } from "socket.io-client"
+import HouseMarker from "../../assets/house-marker.png"
 import 'leaflet/dist/leaflet.css'
 import "./vaccineDriveStyles.css"
 
@@ -15,7 +16,13 @@ export default function VaccineDrive() {
     const [map, setMap] = useState(null)
     const mapRef = useRef(null)
     const [rejectedHouses, setRejectedHouses] = useState([])
-    const center = [24.8546842, 67.0207055]
+    
+    const dummyWorkers = [
+        {email:'abc@gmail.com',latitude:24.9180, longitude:67.0971},
+     ]
+
+    const [workersLoc, setWorkersLoc] = useState([...dummyWorkers])
+    const center = [24.9180, 67.0971]
     // Get Rejected Houses
     async function getRejectedHouses() {
         let rejHouses = []
@@ -24,27 +31,10 @@ export default function VaccineDrive() {
         if (response?.success) {
             let houses = response?.data?.filter(item => item?.Vac_Status === 'Rejected')
             houses?.map((item) => {
-            
-                rejHouses.push({houseNo:item?.house_no,position:[item?.latitude, item?.longitude]})
+                rejHouses.push({ houseNo: item?.house_no, position: [item?.latitude, item?.longitude] })
             })
             setRejectedHouses([...rejHouses])
-            console.log('Re', rejHouses)
-
-
-
         }
-    }
-
-    console.log('points', points)
-
-
-    // For My Location
-    const [myCoords, setLoc] = useState([24.854600, 67.0207055])
-
-    function location() {
-        navigator.geolocation.getCurrentPosition(pos => {
-            setLoc([pos.coords.latitude, pos.coords.longitude])
-        })
     }
 
     useEffect(() => {
@@ -54,22 +44,12 @@ export default function VaccineDrive() {
         socket.current.on('connection', () => {
             console.log('connected')
         })
-        // socket.current.emit("sendLocation", {data:"kuch bhi jani"});
 
         socket.current.on('getLocation', (data) => {
             console.log('data', data)
+            setWorkersLoc([...workersLoc,data])
         })
     }, [])
-
-    useLayoutEffect(() => {
-        location()
-
-    }, [])
-    useEffect(() => {
-        map?.flyTo(myCoords, 11)
-
-
-    }, [myCoords]);
 
 
     let pointer = Leaflet.icon({
@@ -81,7 +61,7 @@ export default function VaccineDrive() {
         popupAnchor: [4, -80],
     })
     let housePointer = Leaflet.icon({
-        iconUrl: "https://www.pinpng.com/pngs/m/53-531960_home-icon-red-png-transparent-png.png",
+        iconUrl: HouseMarker,
         iconSize: [50, 50],
         shadowSize: [50, 64],
         iconAnchor: [22, 94],
@@ -90,13 +70,7 @@ export default function VaccineDrive() {
     })
 
 
-
-    const points = [
-        [25.07316070640961, 67.10449218750001],
-        [25.021217616954733, 67.13504791259767],
-        [25.021062065689673, 67.12964057922365],
-        [25.015462088877463, 25.015462088877463],
-    ]
+    console.log('loc',workersLoc)
 
     return (
         <LayoutComponent>
@@ -116,11 +90,11 @@ export default function VaccineDrive() {
                     />
 
                     {
-                        points?.map(item => {
+                        workersLoc?.map(item => {
                             return (
-                                <Marker position={item} icon={pointer}>
+                                <Marker position={[item?.latitude, item?.longitude]} icon={pointer}>
                                     <Popup>
-                                        <div>Worker Information will be here</div>
+                                        <div>Worker Email:{item?.email ? item?.email : item?.worker_email}</div>
 
                                     </Popup>
                                 </Marker>
@@ -131,7 +105,7 @@ export default function VaccineDrive() {
                     {/* Rejected Houses */}
 
                     {
-                        rejectedHouses?.map((item)=>{
+                        rejectedHouses?.map((item) => {
                             return (
                                 <Marker position={item?.position} icon={housePointer}>
                                     <Popup>
